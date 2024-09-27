@@ -8,13 +8,13 @@ import { Component } from '@angular/core';
 })
 export class LayoutComponent {
   public sidebarItems = [
-    {label: 'Dashboard', icon: 'dahsboard', url: './dashboard'},
-    {label: 'Reglas de Filtrado', icon: 'rules', url: './filters'},
-    {label: 'Historial', icon: 'history', url: './history'},
-    {label: 'Configuracion Sistema', icon: 'settings', url: '/settings'},
-    {label: 'Ayuyda', icon: 'help', url: '/help'},
-    {label: 'Logout', icon: 'logout', url: '/logout'},
-  ]
-
-
+    { label: 'Dashboard', icon: 'dashboard', url: './dashboard' },
+    { label: 'Reglas de Filtrado', icon: 'rule', url: './filters' },
+    { label: 'Historial', icon: 'history', url: './history' },
+    { label: 'Configuracion Sistema', icon: 'settings', url: '/settings' },
+    { label: 'Usuarios', icon: 'people', url: '/users' },
+    { label: 'Ayuda', icon: 'help', url: '/help' },
+    { label: 'Logout', icon: 'logout', url: '/logout' },
+  ];
 }
+
