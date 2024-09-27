@@ -11,15 +11,18 @@ import { UsersComponent } from './pages/users/users.component';
 
 
 const routes: Routes = [
-  { path: '', component: LayoutComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'filters', component: FiltersComponent },
-  { path: 'history', component: HistoryComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'help', component: HelpComponent },
-  { path: 'logout', component: LogoutComponent },
-  { path: '**', redirectTo: '' }
+  { path: '', component: LayoutComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'filters', component: FiltersComponent },
+      { path: 'history', component: HistoryComponent },
+      { path: 'settings', component: SettingsComponent },
+      { path: 'users', component: UsersComponent },
+      { path: 'help', component: HelpComponent },
+      { path: 'logout', component: LogoutComponent },
+      { path: '**', redirectTo: '' }
+    ]
+  }
 ];
 
 @NgModule({
