@@ -1,1 +1,15 @@
 <p>settings works!</p>
+
+<!-- Estado del Proxy -->
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>Estado del Proxy</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Status: {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" *ngIf="!proxyStatus" (click)="startProxy()">Iniciar Proxy</button>
+    <button mat-raised-button color="warn" *ngIf="proxyStatus" (click)="stopProxy()">Detener Proxy</button>
+  </mat-card-actions>
+</mat-card>

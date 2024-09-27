@@ -1,2 +1,38 @@
 <p>filters works!</p>
 <mat-divider></mat-divider>
+
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>Reglas de Filtrado</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="filteringRules" class="mat-elevation-z8">
+
+      <!-- Columna URL -->
+      <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef> URL </th>
+        <td mat-cell *matCellDef="let rule"> {{ rule.url }} </td>
+      </ng-container>
+
+      <!-- Columna Tipo de Regla -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Tipo </th>
+        <td mat-cell *matCellDef="let rule"> {{ rule.type }} </td>
+      </ng-container>
+
+      <!-- Columna de Acciones -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let rule">
+          <button mat-button color="warn" (click)="deleteRule(rule.id)">Eliminar</button>
+        </td>
+      </ng-container>
+
+      <!-- Fila del encabezado -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <!-- Fila de datos -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
