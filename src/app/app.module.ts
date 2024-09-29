@@ -18,6 +18,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { HelpComponent } from './pages/help/help.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { UsersComponent } from './pages/users/users.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 
@@ -44,7 +45,9 @@ import { UsersComponent } from './pages/users/users.component';
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
