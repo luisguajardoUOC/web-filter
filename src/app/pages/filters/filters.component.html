@@ -5,8 +5,37 @@
   <mat-card-header>
     <mat-card-title>Reglas de Filtrado</mat-card-title>
   </mat-card-header>
+
   <mat-card-content>
-    <table mat-table [dataSource]="filteringRules" class="mat-elevation-z8">
+    <!-- Formulario para agregar nueva regla -->
+    <form (ngSubmit)="addRule()">
+      <mat-form-field appearance="outline">
+        <mat-label>URL</mat-label>
+        <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select [(value)]="newRule.type" name="type">
+          <mat-option value="a">A</mat-option>
+          <mat-option value="b">B</mat-option>
+          <mat-option value="c">C</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Acción</mat-label>
+        <mat-select [(value)]="newRule.action" name="action">
+          <mat-option value="autorizar">Autorizar</mat-option>
+          <mat-option value="bloquear">Bloquear</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
+    </form>
+
+    <!-- Tabla de reglas de filtrado -->
+    <table mat-table [dataSource]="filteringRules" class="mat-elevation-z8" style="margin-top: 20px;">
 
       <!-- Columna URL -->
       <ng-container matColumnDef="url">
@@ -20,8 +49,14 @@
         <td mat-cell *matCellDef="let rule"> {{ rule.type }} </td>
       </ng-container>
 
-      <!-- Columna de Acciones -->
+      <!-- Columna de Acción -->
       <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Acción </th>
+        <td mat-cell *matCellDef="let rule"> {{ rule.action }} </td>
+      </ng-container>
+
+      <!-- Columna de Acciones -->
+      <ng-container matColumnDef="actionBtn">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let rule">
           <button mat-button color="warn" (click)="deleteRule(rule.id)">Eliminar</button>
