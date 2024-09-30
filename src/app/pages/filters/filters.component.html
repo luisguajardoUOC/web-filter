@@ -15,11 +15,11 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Tipo</mat-label>
+        <mat-label>Categoria</mat-label>
         <mat-select [(value)]="newRule.type" name="type">
-          <mat-option value="a">A</mat-option>
-          <mat-option value="b">B</mat-option>
-          <mat-option value="c">C</mat-option>
+          <mat-option value="educacion">educacion</mat-option>
+          <mat-option value="social">social</mat-option>
+          <mat-option value="entretenimiento">entretenimiento</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -28,6 +28,27 @@
         <mat-select [(value)]="newRule.action" name="action">
           <mat-option value="autorizar">Autorizar</mat-option>
           <mat-option value="bloquear">Bloquear</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Razón</mat-label>
+        <mat-select [(value)]="newRule.reason" name="action">
+          <mat-option value="access limited to students">access limited to students</mat-option>
+          <mat-option value="platform for registered users only">platform for registered users only</mat-option>
+          <mat-option value="platform for everyone">platform for everyone</mat-option>
+          <mat-option value="insitutional website">insitutional website</mat-option>
+          <mat-option value="other">other</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Select User IP</mat-label>
+        <mat-select [(ngModel)]="newRule.userIP" name="userIP" required>
+          <mat-option value="any">any</mat-option>
+          <mat-option *ngFor="let ip of userIPs" [value]="ip">
+            {{ ip }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 

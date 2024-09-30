@@ -20,13 +20,23 @@ export class WebFilterService {
       return this.http.get<any>(`${this.baseUrl}/api/rules`);
     }
     // Servicio para agregar una nueva regla de filtrado
-    addRule(rule: any): Observable<any> {
-      return this.http.post<any>(`${this.baseUrl}/api/rules`, rule);
+    addBlockedSite(rule: any): Observable<any> {
+      return this.http.post<any>(`${this.baseUrl}/add_blocked_site`, rule);
     }
     // Servicio para eliminar una regla de filtrado
-    deleteRule(id: number): Observable<any> {
+    deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/api/rules/${id}`);
     }
+    addAuthorizedSite(url: string): Observable<any> {
+      const body = { url: url };
+      return this.http.post<any>(`${this.baseUrl}/add_authorized_sites`, body);
+    }
+
+    addRuleForUser(userIdentifier: string, rule: string, action: string) {
+      const body = { identifier: userIdentifier, rule: rule, action: action };
+      return this.http.post<any>(`${this.baseUrl}/api/add-rule`, body);
+    }
+
   // Servicio para obtener el historial
   getHistory(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/api/history`);
