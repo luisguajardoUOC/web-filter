@@ -1,1 +1,99 @@
 <p>users works!</p>
+
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Gestión de Usuarios</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+
+        <!-- Campo para el nombre de usuario -->
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre de Usuario</mat-label>
+          <input matInput [(ngModel)]="user.username" name="username" required>
+        </mat-form-field>
+
+        <!-- Campo para la IP del usuario -->
+        <mat-form-field appearance="outline">
+          <mat-label>IP del Usuario</mat-label>
+          <input matInput [(ngModel)]="user.user_ip" name="user_ip" required>
+        </mat-form-field>
+
+        <!-- Campo para el correo electrónico -->
+        <mat-form-field appearance="outline">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput [(ngModel)]="user.email" name="email" type="email">
+        </mat-form-field>
+
+        <!-- Campo para seleccionar el rol -->
+        <mat-form-field appearance="outline">
+          <mat-label>Rol del Usuario</mat-label>
+          <mat-select [(ngModel)]="user.role" name="role" required>
+            <mat-option value="student">Estudiante</mat-option>
+            <mat-option value="teacher">Profesor</mat-option>
+            <mat-option value="public">Público</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Botones de acción -->
+        <div class="buttons">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.form.valid">Guardar</button>
+          <button mat-raised-button color="warn" type="button" (click)="onDelete(user.id)">Eliminar</button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Tabla de usuarios -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Lista de Usuarios</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="users" class="mat-elevation-z8">
+
+        <!-- Columna Nombre de Usuario -->
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef> Nombre de Usuario </th>
+          <td mat-cell *matCellDef="let user"> {{ user.username }} </td>
+        </ng-container>
+
+        <!-- Columna IP del Usuario -->
+        <ng-container matColumnDef="user_ip">
+          <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
+          <td mat-cell *matCellDef="let user"> {{ user.user_ip }} </td>
+        </ng-container>
+
+        <!-- Columna Correo Electrónico -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Correo Electrónico </th>
+          <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+        </ng-container>
+
+        <!-- Columna Rol -->
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef> Rol </th>
+          <td mat-cell *matCellDef="let user"> {{ user.role }} </td>
+        </ng-container>
+
+        <!-- Columna de acciones -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let user">
+            <button mat-button (click)="onEdit(user)">Editar</button>
+          </td>
+        </ng-container>
+
+        <!-- Fila de encabezado -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <!-- Fila de datos -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

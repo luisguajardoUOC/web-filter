@@ -9,12 +9,12 @@
   <mat-card-content>
     <!-- Formulario para agregar nueva regla -->
     <form (ngSubmit)="addRule()">
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>URL</mat-label>
         <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field >
         <mat-label>Categoria</mat-label>
         <mat-select [(value)]="newRule.type" name="type">
           <mat-option value="educacion">educacion</mat-option>
@@ -23,7 +23,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field >
         <mat-label>Acción</mat-label>
         <mat-select [(value)]="newRule.action" name="action">
           <mat-option value="autorizar">Autorizar</mat-option>
@@ -31,7 +31,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field >
         <mat-label>Razón</mat-label>
         <mat-select [(value)]="newRule.reason" name="action">
           <mat-option value="access limited to students">access limited to students</mat-option>
@@ -42,7 +42,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field >
         <mat-label>Select User IP</mat-label>
         <mat-select [(ngModel)]="newRule.userIP" name="userIP" required>
           <mat-option value="any">any</mat-option>

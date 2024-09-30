@@ -23,6 +23,8 @@ export class WebFilterService {
     addBlockedSite(rule: any): Observable<any> {
       return this.http.post<any>(`${this.baseUrl}/add_blocked_site`, rule);
     }
+
+    
     // Servicio para eliminar una regla de filtrado
     deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/api/rules/${id}`);
@@ -34,8 +36,31 @@ export class WebFilterService {
 
     addRuleForUser(userIdentifier: string, rule: string, action: string) {
       const body = { identifier: userIdentifier, rule: rule, action: action };
-      return this.http.post<any>(`${this.baseUrl}/api/add-rule`, body);
+      return this.http.post<any>(`${this.baseUrl}/add-rule`, body);
     }
+
+
+    // Servicio para obtener los usuarios
+    getUsers(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/users`);
+    }
+
+    createUser(user: any): Observable<any> {
+      return this.http.post<any>(`${this.baseUrl}/create-user`, user);
+    }
+
+    updateUser(user: any): Observable<any> {
+      return this.http.post<any>(`${this.baseUrl}/update-user`, user);
+    }
+
+    deleteUser(id: string): Observable<any> {
+      return this.http.delete<any>(`${this.baseUrl}/delete-user/${id}`);
+    }
+
+
+
+
+
 
   // Servicio para obtener el historial
   getHistory(): Observable<any> {

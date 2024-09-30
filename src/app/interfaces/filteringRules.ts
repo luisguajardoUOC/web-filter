@@ -6,3 +6,11 @@ export interface FilteringRule {
   reason?: string;
   userIP?: string;
 }
+
+export interface User {
+  id: string;
+  username: string;
+  user_ip: string;
+  email: string;
+  role: 'student' | 'teacher' | 'public';
+}
