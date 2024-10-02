@@ -1,10 +1,59 @@
 <p>history works!</p>
 <mat-divider></mat-divider>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>Historial de Navegación</mat-card-title>
+  </mat-card-header>
 
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <p>hola</p>
-    </div>
-  </div>
-</div>
+  <mat-card-content>
+    <table mat-table [dataSource]="historyData" class="mat-elevation-z8" style="width: 100%;">
+
+      <!-- Columna ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <!-- Columna URL -->
+      <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef> URL </th>
+        <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+      </ng-container>
+
+      <!-- Columna Estado de URL -->
+      <ng-container matColumnDef="stateUrl">
+        <th mat-header-cell *matHeaderCellDef> Estado URL </th>
+        <td mat-cell *matCellDef="let element"> {{element.stateUrl}} </td>
+      </ng-container>
+
+      <!-- Columna Tipo -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Tipo </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
+      <!-- Columna IP del Usuario -->
+      <ng-container matColumnDef="userIP">
+        <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
+        <td mat-cell *matCellDef="let element"> {{element.userIP}} </td>
+      </ng-container>
+
+      <!-- Columna Rol -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Rol </th>
+        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+      </ng-container>
+
+      <!-- Columna Fecha -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Fecha acceso </th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      </ng-container>
+
+      <!-- Encabezado de la tabla -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- Filas de la tabla -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

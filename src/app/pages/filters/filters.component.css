@@ -4,5 +4,10 @@
 }
 
 .mat-form-field {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
+}
+
+.mat-mdc-card {
+  display: flex; /* Asegúrate de que el display sea flex */
+  flex-direction: row; /* Cambia la dirección de los elementos a filas */
 }

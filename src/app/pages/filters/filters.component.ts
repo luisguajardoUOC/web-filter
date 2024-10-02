@@ -59,19 +59,22 @@ export class FiltersComponent  implements OnInit {
      // Si estamos en modo edición (la regla tiene un id), actualizamos la regla
      if (this.isEditing) {
       // Llamar al servicio para actualizar la regla
-      this.webFilterService.editeRule(this.currentRule).subscribe(data => {
+      const newData = JSON.stringify(this.newRule);
+      this.webFilterService.editeRule(newData).subscribe(data => {
         this.filteringRules = data;  // Actualizamos la lista de reglas con los datos devueltos
         this.clearForm();  // Limpiamos el formulario después de editar
       });
     } else {
       // Modo de agregar nueva regla
     if (this.newRule.action === 'autorizar') {
-      this.webFilterService.addAuthorizedSite(this.newRule.url).subscribe(data => {
+      const newData = JSON.stringify(this.newRule);
+      this.webFilterService.addAuthorizedSite(newData).subscribe(data => {
         this.filteringRules = data;  // Actualizamos la lista de reglas
         this.clearForm();  // Limpiar el formulario aquí de agregar
       });
     } else {
-      this.webFilterService.addBlockedSite(this.newRule).subscribe(data => {
+      const newData = JSON.stringify(this.newRule);
+      this.webFilterService.addBlockedSite(newData).subscribe(data => {
         this.filteringRules = data;  // Actualizamos la lista de reglas
         this.clearForm();  // Limpiar el formulario aquí de agregar
       });

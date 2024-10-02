@@ -15,3 +15,13 @@ export interface User {
   email: string;
   role: 'student' | 'teacher' | 'public';
 }
+
+export interface Hisotry {
+  id?: string;
+  url: string;
+  stateUrl: string;
+  type: string;
+  userIP?: string;
+  role: 'student' | 'teacher' | 'public';
+  date: string;
+}

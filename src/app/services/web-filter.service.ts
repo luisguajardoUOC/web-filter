@@ -10,35 +10,29 @@ export class WebFilterService {
 
   constructor(private http: HttpClient) {}
 
-  // Método para verificar si una URL está bloqueada
-  checkUrl(url: string): Observable<any> {
-    const body = { url: url };
-    return this.http.post<any>(`${this.baseUrl}/api/filter`, body);
-  }
+    // Método para verificar si una URL está bloqueada
+    checkUrl(url: string): Observable<any> {
+      const body = { url: url };
+      return this.http.post<any>(`${this.baseUrl}/api/filter`, body);
+      }
     // Servicio para obtener reglas de filtrado
     getRules(): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/api/rules`);
     }
     // Servicio para agregar una nueva regla de filtrado
-    addBlockedSite(rule: any): Observable<any> {
+    addBlockedSite(rule: string): Observable<any> {
       return this.http.post<any>(`${this.baseUrl}/add_blocked_site`, rule);
     }
-
 
     // Servicio para eliminar una regla de filtrado
     deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/api/rules/${id}`);
     }
-    addAuthorizedSite(url: string): Observable<any> {
-      const body = { url: url };
-      return this.http.post<any>(`${this.baseUrl}/add_authorized_sites`, body);
+    addAuthorizedSite(rule: string): Observable<any> {
+      return this.http.post<any>(`${this.baseUrl}/add_authorized_sites`, rule);
     }
 
-    addRuleForUser(userIdentifier: string, rule: string, action: string) {
-      const body = { identifier: userIdentifier, rule: rule, action: action };
-      return this.http.post<any>(`${this.baseUrl}/add-rule`, body);
-    }
-    editeRule(data: any) {
+    editeRule(data: string) {
       // const body = { identifier: userIdentifier, rule: rule, action: action };
       return this.http.post<any>(`${this.baseUrl}/edit-rule`, data);
     }
