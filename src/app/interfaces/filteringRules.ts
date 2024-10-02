@@ -5,6 +5,7 @@ export interface FilteringRule {
   type: string;
   reason?: string;
   userIP?: string;
+  role:  'student' | 'teacher' | 'public';
 }
 
 export interface User {

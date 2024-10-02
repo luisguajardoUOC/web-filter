@@ -1,4 +1,3 @@
-<p>filters works!</p>
 <mat-divider></mat-divider>
 
 <mat-card class="card">
@@ -9,46 +8,63 @@
   <mat-card-content>
     <!-- Formulario para agregar nueva regla -->
     <form (ngSubmit)="addRule()">
+      <mat-divider></mat-divider>
+      <h3>Información de la Regla</h3>
+
       <mat-form-field>
         <mat-label>URL</mat-label>
         <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
       </mat-form-field>
 
-      <mat-form-field >
-        <mat-label>Categoria</mat-label>
-        <mat-select [(value)]="newRule.type" name="type">
-          <mat-option value="educacion">educacion</mat-option>
-          <mat-option value="social">social</mat-option>
-          <mat-option value="entretenimiento">entretenimiento</mat-option>
+      <mat-form-field>
+        <mat-label>Categoría</mat-label>
+        <mat-select [(ngModel)]="newRule.type" name="type" required>
+          <mat-option value="educacion">Educación</mat-option>
+          <mat-option value="social">Social</mat-option>
+          <mat-option value="entretenimiento">Entretenimiento</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Acción</mat-label>
-        <mat-select [(value)]="newRule.action" name="action">
+        <mat-select [(ngModel)]="newRule.action" name="action" required>
           <mat-option value="autorizar">Autorizar</mat-option>
           <mat-option value="bloquear">Bloquear</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Razón</mat-label>
-        <mat-select [(value)]="newRule.reason" name="action">
-          <mat-option value="access limited to students">access limited to students</mat-option>
-          <mat-option value="platform for registered users only">platform for registered users only</mat-option>
-          <mat-option value="platform for everyone">platform for everyone</mat-option>
-          <mat-option value="insitutional website">insitutional website</mat-option>
-          <mat-option value="other">other</mat-option>
+        <mat-select [(ngModel)]="newRule.reason" name="reason" required>
+          <mat-option value="access limited to students">Access limited to students</mat-option>
+          <mat-option value="platform for registered users only">Platform for registered users only</mat-option>
+          <mat-option value="platform for everyone">Platform for everyone</mat-option>
+          <mat-option value="insitutional website">Institutional website</mat-option>
+          <mat-option value="other">Other</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field >
-        <mat-label>Select User IP</mat-label>
-        <mat-select [(ngModel)]="newRule.userIP" name="userIP" required>
-          <mat-option value="any">any</mat-option>
+      <mat-divider></mat-divider>
+      <h3>Filtrado por Usuario</h3>
+
+      <mat-form-field>
+        <mat-label>Seleccionar IP del Usuario</mat-label>
+        <mat-select [(ngModel)]="newRule.userIP" name="userIP"
+          (selectionChange)="onUserIPSelectionChange($event)"  required>
+          <mat-option value="any">Todos</mat-option>
           <mat-option *ngFor="let ip of userIPs" [value]="ip">
             {{ ip }}
           </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Seleccionar por Rol</mat-label>
+        <mat-select [(ngModel)]="newRule.role" name="role" [disabled]="isUserIPSelected" required>
+          <mat-option value="student">Estudiante</mat-option>
+          <mat-option value="teacher">Profesor</mat-option>
+          <mat-option value="public">Público</mat-option>
+          <mat-option value="any">Todos</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -57,7 +73,6 @@
 
     <!-- Tabla de reglas de filtrado -->
     <table mat-table [dataSource]="filteringRules" class="mat-elevation-z8" style="margin-top: 20px;">
-
       <!-- Columna URL -->
       <ng-container matColumnDef="url">
         <th mat-header-cell *matHeaderCellDef> URL </th>

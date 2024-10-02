@@ -11,7 +11,7 @@ import { FilteringRule } from '../../interfaces/filteringRules';
 export class FiltersComponent  implements OnInit {
 
   public filteringRules: FilteringRule[] = [];
-  userIPs: string[] = [];  // Lista para almacenar las IPs únicas
+  userIPs: string[] = ['192.168.0.1', '192.168.0.2', '192.168.0.3'];  // Lista para almacenar las IPs únicas
   displayedColumns: string[] = ['url', 'type', 'action'];  // Definimos las columnas a mostrar en la tabla
   newRule: {
     action: string;
@@ -19,13 +19,16 @@ export class FiltersComponent  implements OnInit {
     type: string;
     reason?: string;
     userIP?: string;
+    role?: string;
   } = {
     action: 'bloquear',  // Valor por defecto
-    url: '',             // Inicialmente vacío
-    type: 'a',            // Valor por defecto
-    reason: '',
-    userIP: ''
+    url: 'any',             // Inicialmente vacío
+    type: 'no category',            // Valor por defecto
+    reason: 'no reason',
+    userIP: 'any',
+    role: 'any'
   };
+  isUserIPSelected: boolean = false;
 
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
@@ -71,6 +74,12 @@ export class FiltersComponent  implements OnInit {
     });
   }
 
+   // Método que se ejecuta al cambiar la selección de la IP
+   onUserIPSelectionChange(event: any) {
+    // Si la IP seleccionada no es 'any', se deshabilita la selección de rol
+    this.isUserIPSelected = event.value !== 'any';
+    this.newRule.role = '';
+  }
   // Limpiar el formulario
   clearForm(): void {
     this.newRule = {
