@@ -12,7 +12,7 @@ export class FiltersComponent  implements OnInit {
 
   public filteringRules: FilteringRule[] = [];
   userIPs: string[] = ['192.168.0.1', '192.168.0.2', '192.168.0.3'];  // Lista para almacenar las IPs únicas
-  displayedColumns: string[] = ['url', 'type', 'action'];  // Definimos las columnas a mostrar en la tabla
+  displayedColumns: string[] = ['url', 'type', 'action', 'userIP', 'role', 'actionBtn']; // Definimos las columnas a mostrar en la tabla
   newRule: {
     action: string;
     url: string;
@@ -29,6 +29,9 @@ export class FiltersComponent  implements OnInit {
     role: 'any'
   };
   isUserIPSelected: boolean = false;
+  currentRule = { id: null, url: '', type: '', action: '', userIP: 'any', role: '' }; // Inicializamos una regla vacía
+  isEditing = false; // Para saber si estamos editando o agregando una nueva regla
+
 
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
@@ -53,6 +56,15 @@ export class FiltersComponent  implements OnInit {
     if (!this.newRule.url) {
       return;
     }
+     // Si estamos en modo edición (la regla tiene un id), actualizamos la regla
+     if (this.isEditing) {
+      // Llamar al servicio para actualizar la regla
+      this.webFilterService.editeRule(this.currentRule).subscribe(data => {
+        this.filteringRules = data;  // Actualizamos la lista de reglas con los datos devueltos
+        this.clearForm();  // Limpiamos el formulario después de editar
+      });
+    } else {
+      // Modo de agregar nueva regla
     if (this.newRule.action === 'autorizar') {
       this.webFilterService.addAuthorizedSite(this.newRule.url).subscribe(data => {
         this.filteringRules = data;  // Actualizamos la lista de reglas
@@ -65,7 +77,7 @@ export class FiltersComponent  implements OnInit {
       });
     }
   }
-
+  }
   // Método para eliminar una regla de filtrado
   deleteRule(id: string): void {
     this.webFilterService.deleteBlockedSite(id).subscribe(() => {
@@ -74,6 +86,11 @@ export class FiltersComponent  implements OnInit {
     });
   }
 
+   // Método para editar una regla
+   editRule(rule: any) {
+    this.currentRule = { ...rule }; // Copiamos la regla seleccionada al formulario
+    this.isEditing = true; // Cambiamos a modo edición
+  }
    // Método que se ejecuta al cambiar la selección de la IP
    onUserIPSelectionChange(event: any) {
     // Si la IP seleccionada no es 'any', se deshabilita la selección de rol

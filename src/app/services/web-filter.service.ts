@@ -24,7 +24,7 @@ export class WebFilterService {
       return this.http.post<any>(`${this.baseUrl}/add_blocked_site`, rule);
     }
 
-    
+
     // Servicio para eliminar una regla de filtrado
     deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/api/rules/${id}`);
@@ -37,6 +37,10 @@ export class WebFilterService {
     addRuleForUser(userIdentifier: string, rule: string, action: string) {
       const body = { identifier: userIdentifier, rule: rule, action: action };
       return this.http.post<any>(`${this.baseUrl}/add-rule`, body);
+    }
+    editeRule(data: any) {
+      // const body = { identifier: userIdentifier, rule: rule, action: action };
+      return this.http.post<any>(`${this.baseUrl}/edit-rule`, data);
     }
 
 

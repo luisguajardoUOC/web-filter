@@ -1,6 +1,6 @@
 <mat-divider></mat-divider>
 
-<mat-card class="card">
+<mat-card class="card" style="margin-bottom: 20px;">
   <mat-card-header>
     <mat-card-title>Reglas de Filtrado</mat-card-title>
   </mat-card-header>
@@ -44,13 +44,13 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-divider></mat-divider>
+      <mat-divider style="margin-bottom: 20px;"></mat-divider>
       <h3>Filtrado por Usuario</h3>
 
       <mat-form-field>
         <mat-label>Seleccionar IP del Usuario</mat-label>
-        <mat-select [(ngModel)]="newRule.userIP" name="userIP"
-          (selectionChange)="onUserIPSelectionChange($event)"  required>
+        <mat-select [(ngModel)]="newRule.userIP" name="userIP" (selectionChange)="onUserIPSelectionChange($event)"
+          required>
           <mat-option value="any">Todos</mat-option>
           <mat-option *ngFor="let ip of userIPs" [value]="ip">
             {{ ip }}
@@ -70,9 +70,18 @@
 
       <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
     </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-divider style="margin-bottom: 20px;"></mat-divider>
+
+
+<mat-card class="card" style="margin-bottom: 20px;">
+  <mat-card-content>
 
     <!-- Tabla de reglas de filtrado -->
     <table mat-table [dataSource]="filteringRules" class="mat-elevation-z8" style="margin-top: 20px;">
+
       <!-- Columna URL -->
       <ng-container matColumnDef="url">
         <th mat-header-cell *matHeaderCellDef> URL </th>
@@ -81,7 +90,7 @@
 
       <!-- Columna Tipo de Regla -->
       <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Tipo </th>
+        <th mat-header-cell *matHeaderCellDef> Categoria </th>
         <td mat-cell *matCellDef="let rule"> {{ rule.type }} </td>
       </ng-container>
 
@@ -91,10 +100,23 @@
         <td mat-cell *matCellDef="let rule"> {{ rule.action }} </td>
       </ng-container>
 
+      <!-- Columna IP del Usuario -->
+      <ng-container matColumnDef="userIP">
+        <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
+        <td mat-cell *matCellDef="let rule"> {{ rule.userIP }} </td>
+      </ng-container>
+
+      <!-- Columna Rol del Usuario -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Rol del Usuario </th>
+        <td mat-cell *matCellDef="let rule"> {{ rule.role }} </td>
+      </ng-container>
+
       <!-- Columna de Acciones -->
       <ng-container matColumnDef="actionBtn">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let rule">
+          <button mat-button color="primary" (click)="editRule(rule)">Editar</button>
           <button mat-button color="warn" (click)="deleteRule(rule.id)">Eliminar</button>
         </td>
       </ng-container>
