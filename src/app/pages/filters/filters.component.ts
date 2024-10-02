@@ -29,6 +29,7 @@ export class FiltersComponent  implements OnInit {
     role: 'any'
   };
   isUserIPSelected: boolean = false;
+  isEventSelected: boolean = false;
   currentRule = { id: null, url: '', type: '', action: '', userIP: 'any', role: '' }; // Inicializamos una regla vacía
   isEditing = false; // Para saber si estamos editando o agregando una nueva regla
 
@@ -99,6 +100,12 @@ export class FiltersComponent  implements OnInit {
     // Si la IP seleccionada no es 'any', se deshabilita la selección de rol
     this.isUserIPSelected = event.value !== 'any';
     this.newRule.role = '';
+  }
+
+  onEventSelectionChange(event: any) {
+    // Si la IP seleccionada no es 'any', se deshabilita la selección de rol
+    this.isEventSelected = event.value !== 'any';
+    this.newRule.userIP = '';
   }
   // Limpiar el formulario
   clearForm(): void {

@@ -49,13 +49,14 @@
         </mat-form-field>
       </div>
         <mat-divider style="margin-bottom: 20px; "></mat-divider>
-        <h3>Filtrado por Usuario</h3>
+        <h3>Filtrado por Usuario / Rol </h3>
         <!-- Tercera fila con un campo -->
       <div fxLayout="row" fxLayoutGap="20px">
 
         <mat-form-field>
           <mat-label>Seleccionar IP del Usuario</mat-label>
-          <mat-select [(ngModel)]="newRule.userIP" name="userIP" (selectionChange)="onUserIPSelectionChange($event)"
+          <mat-select [(ngModel)]="newRule.userIP" name="userIP"
+            [disabled]="isEventSelected" (selectionChange)="onUserIPSelectionChange($event)"
             required>
             <mat-option value="any">Todos</mat-option>
             <mat-option *ngFor="let ip of userIPs" [value]="ip">
@@ -67,7 +68,8 @@
 
         <mat-form-field>
           <mat-label>Seleccionar por Rol</mat-label>
-          <mat-select [(ngModel)]="newRule.role" name="role" [disabled]="isUserIPSelected" required>
+          <mat-select [(ngModel)]="newRule.role" name="role" [disabled]="isUserIPSelected"
+              (selectionChange)="onEventSelectionChange($event)" required>
             <mat-option value="any">Todos</mat-option>
             <mat-option value="student">Estudiante</mat-option>
             <mat-option value="teacher">Profesor</mat-option>
