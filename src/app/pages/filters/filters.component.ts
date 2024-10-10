@@ -32,23 +32,40 @@ export class FiltersComponent  implements OnInit {
   isEventSelected: boolean = false;
   currentRule = { id: null, url: '', type: '', action: '', userIP: 'any', role: '' }; // Inicializamos una regla vacía
   isEditing = false; // Para saber si estamos editando o agregando una nueva regla
-
+  users: any;
+  ip: any;
 
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
     this.getFilteringRules();
+    this.getUsers();
     // this.postFilteringRules(arg: any);
   }
 
 
   getFilteringRules(): void {
     this.webFilterService.getRules().subscribe(data => {
-      this.filteringRules = data.filteringRules;
-        // Filtrar las IPs que no son undefined y eliminar duplicados
-      this.userIPs = [...new Set(this.filteringRules
-        .map(rule => rule.userIP)
-        .filter((ip): ip is string => ip !== undefined))];  // Elimina undefined y asegura que sólo quedan strings
-    });
+      console.log("data", data);
+      this.filteringRules = data.rules;
+      console.log("this.filteringRules", this.filteringRules);
+      // Reemplazar 'null' o 'any' con 'ALL' en ip_usuario
+      this.filteringRules = this.filteringRules.map((rule, index) => {
+        if (rule.ip_usuario === null || rule.ip_usuario === 'any') {
+          rule.ip_usuario = 'ALL';
+        }
+        //rule.id = index +1;
+        return rule;
+      });
+        });
+  }
+
+  getUsers(): void {
+    this.webFilterService.getUsers().subscribe(data => {
+      console.log("users", data);
+      // Mapear para extraer solo las direcciones IP de los usuarios
+      this.users = data.map((user: any) => ({ip:user.ip_usuario}));
+      console.log("this.users", this.users);
+    })
   }
 
   // Método para agregar una nueva regla
@@ -75,7 +92,8 @@ export class FiltersComponent  implements OnInit {
       });
     } else {
       const newData = JSON.stringify(this.newRule);
-      this.webFilterService.addBlockedSite(newData).subscribe(data => {
+      console.log("newData", newData);
+      this.webFilterService.addRule(newData).subscribe(data => {
         this.filteringRules = data;  // Actualizamos la lista de reglas
         this.clearForm();  // Limpiar el formulario aquí de agregar
       });
@@ -83,10 +101,11 @@ export class FiltersComponent  implements OnInit {
   }
   }
   // Método para eliminar una regla de filtrado
-  deleteRule(id: string): void {
-    this.webFilterService.deleteBlockedSite(id).subscribe(() => {
+  deleteRule(data: any): void {
+    console.log("delete",data);
+    this.webFilterService.deleteRule(data).subscribe(() => {
       // Al eliminar la regla, actualizamos la lista
-      this.filteringRules = this.filteringRules.filter(rule => rule.id !== id);
+      this.filteringRules = this.filteringRules.filter(data => data.id !== data.id);
     });
   }
 

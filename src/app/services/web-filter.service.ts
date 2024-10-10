@@ -17,30 +17,38 @@ export class WebFilterService {
       }
     // Servicio para obtener reglas de filtrado
     getRules(): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}/api/rules`);
+      return this.http.get<any>(`${this.baseUrl}/list_rules`);
     }
+    
+    addRule(data:any): Observable<any> {
+      const headers = { 'Content-Type': 'application/json' };
+      return this.http.post<any>(`${this.baseUrl}/add_rule`, data, {headers});
+    }
+
+    editeRule(data: any): Observable<any>{
+      // const body = { identifier: userIdentifier, rule: rule, action: action };
+      return this.http.post<any>(`${this.baseUrl}/edit_rule`, data);
+    }
+
+    deleteRule(data:any): Observable<any>{
+      return this.http.post<any>(`${this.baseUrl}/delete_rule`, data);
+    }
+
     // Servicio para agregar una nueva regla de filtrado
-    addBlockedSite(rule: string): Observable<any> {
-      return this.http.post<any>(`${this.baseUrl}/add_blocked_site`, rule);
-    }
+   
+
 
     // Servicio para eliminar una regla de filtrado
     deleteBlockedSite(id: string): Observable<any> {
-      return this.http.delete<any>(`${this.baseUrl}/api/rules/${id}`);
+      return this.http.delete<any>(`${this.baseUrl}/delete_rules`);
     }
     addAuthorizedSite(rule: string): Observable<any> {
       return this.http.post<any>(`${this.baseUrl}/add_authorized_sites`, rule);
     }
 
-    editeRule(data: string) {
-      // const body = { identifier: userIdentifier, rule: rule, action: action };
-      return this.http.post<any>(`${this.baseUrl}/edit-rule`, data);
-    }
-
-
     // Servicio para obtener los usuarios
     getUsers(): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}/users`);
+      return this.http.get<any>(`${this.baseUrl}/get_users`);
     }
 
     createUser(user: any): Observable<any> {

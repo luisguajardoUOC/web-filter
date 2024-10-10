@@ -1,11 +1,11 @@
 export interface FilteringRule {
-  id: string;
+  id: number;
   action: string;
   url: string;
   type: string;
   reason?: string;
-  userIP?: string;
-  role:  'student' | 'teacher' | 'public';
+  ip_usuario?: string;
+  role_usuario:  'student' | 'teacher' | 'public';
 }
 
 export interface User {
