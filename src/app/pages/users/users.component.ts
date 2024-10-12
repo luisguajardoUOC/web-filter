@@ -13,14 +13,14 @@ export class UsersComponent  implements OnInit  {
   user: User = {
     id: '',
     username: '',
-    user_ip: '',
+    userIP: '',
     email: '',
     role: 'public'
   };
-  displayedColumns: string[] = ['username', 'user_ip', 'email', 'role', 'actions'];
+  displayedColumns: string[] = ['username', 'userIP', 'role', 'timeStamp', 'actions'];
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getUsers();
   }
 
 
@@ -60,7 +60,7 @@ resetForm(): void {
   this.user = {
     id: '',
     username: '',
-    user_ip: '',
+    userIP: '',
     email: '',
     role: 'public'
   };

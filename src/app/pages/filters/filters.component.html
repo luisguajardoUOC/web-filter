@@ -7,27 +7,26 @@
 
   <mat-card-content>
     <!-- Formulario para agregar nueva regla -->
-    <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="50px">
+    <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
       <mat-divider></mat-divider>
-      <h3>Información de la Regla</h3>
-
+      <mat-card-subtitle>Información de la Regla</mat-card-subtitle>
       <div fxLayout="row" fxLayoutGap="20px" >
         <mat-form-field fxFlex="45%">
           <mat-label>URL</mat-label>
           <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="40">
-          <mat-label>Categoría</mat-label>
-          <mat-select [(ngModel)]="newRule.type" name="type" required>
-            <mat-option value="educacion">Educación</mat-option>
-            <mat-option value="social">Social</mat-option>
-            <mat-option value="entretenimiento">Entretenimiento</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <!-- Segunda fila con dos campos -->
-      <div fxLayout="row" fxLayoutGap="20px" >
+          <!--  <mat-form-field fxFlex="40">
+              <mat-label>Categoría</mat-label>
+              <mat-select [(ngModel)]="newRule.type" name="type" required>
+                <mat-option value="educacion">Educación</mat-option>
+                <mat-option value="social">Social</mat-option>
+                <mat-option value="entretenimiento">Entretenimiento</mat-option>
+              </mat-select>
+            </mat-form-field>-->
+          
+          <!-- Segunda fila con dos campos 
+          <div fxLayout="row" fxLayoutGap="20px" >-->
 
         <mat-form-field>
           <mat-label>Acción</mat-label>
@@ -37,27 +36,27 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field fxFlex="1000">
-          <mat-label>Razón</mat-label>
-          <mat-select [(ngModel)]="newRule.reason" name="reason" required>
-            <mat-option value="access limited to students">Access limited to students</mat-option>
-            <mat-option value="platform for registered users only">Platform for registered users only</mat-option>
-            <mat-option value="platform for everyone">Platform for everyone</mat-option>
-            <mat-option value="insitutional website">Institutional website</mat-option>
-            <mat-option value="other">Other</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <!--  <mat-form-field fxFlex="1000">
+              <mat-label>Razón</mat-label>
+              <mat-select [(ngModel)]="newRule.reason" name="reason" required>
+                <mat-option value="access limited to students">Access limited to students</mat-option>
+                <mat-option value="platform for registered users only">Platform for registered users only</mat-option>
+                <mat-option value="platform for everyone">Platform for everyone</mat-option>
+                <mat-option value="insitutional website">Institutional website</mat-option>
+                <mat-option value="other">Other</mat-option>
+              </mat-select>
+            </mat-form-field> -->
       </div>
         <mat-divider style="margin-bottom: 20px; "></mat-divider>
-        <h3>Filtrado por Usuario / Rol </h3>
+        <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
         <!-- Tercera fila con un campo -->
       <div fxLayout="row" fxLayoutGap="20px">
 
         <mat-form-field>
           <mat-label>Seleccionar IP del Usuario</mat-label>
-          <mat-select [(ngModel)]="newRule.userIP" name="userIP"
+          <mat-select [(ngModel)]="newRule.usuarios" name="userIP"
             [disabled]="isEventSelected" (selectionChange)="onUserIPSelectionChange($event)"
-            required>
+            multiple required>
             <mat-option value="any">Todos</mat-option>
             <mat-option *ngFor="let user of users" [value]="user.ip">
               {{ user.ip}}
@@ -68,13 +67,13 @@
 
         <mat-form-field>
           <mat-label>Seleccionar por Rol</mat-label>
-          <mat-select [(ngModel)]="newRule.role" name="role" [disabled]="isUserIPSelected"
-              (selectionChange)="onEventSelectionChange($event)" required>
+          <mat-select [(ngModel)]="newRule.roles" name="role" [disabled]="isUserIPSelected"
+              (selectionChange)="onEventSelectionChange($event)" multiple required>
+            <mat-option value=""></mat-option>
             <mat-option value="any">Todos</mat-option>
             <mat-option value="student">Estudiante</mat-option>
             <mat-option value="teacher">Profesor</mat-option>
             <mat-option value="public">Público</mat-option>
-
           </mat-select>
         </mat-form-field>
 
@@ -102,29 +101,32 @@
         <th mat-header-cell *matHeaderCellDef> URL </th>
         <td mat-cell *matCellDef="let rule"> {{ rule.url }} </td>
       </ng-container>
-
-      <!-- Columna Tipo de Regla -->
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Categoria </th>
-        <td mat-cell *matCellDef="let rule"> {{ rule.type }} </td>
-      </ng-container>
+     
 
       <!-- Columna de Acción -->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Acción </th>
-        <td mat-cell *matCellDef="let rule"> {{ rule.accion }} </td>
+        <td mat-cell *matCellDef="let rule"> {{ rule.action }} </td>
       </ng-container>
 
       <!-- Columna IP del Usuario -->
       <ng-container matColumnDef="userIP">
         <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
-        <td mat-cell *matCellDef="let rule"> {{ rule.ip_usuario }} </td>
+        <td mat-cell *matCellDef="let rule"> 
+          <ng-container *ngFor="let user of rule.usuarios; let i = index">
+          {{ user.userIP }}
+          </ng-container>
+        </td>
       </ng-container>
 
       <!-- Columna Rol del Usuario -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef> Rol del Usuario </th>
-        <td mat-cell *matCellDef="let rule"> {{ rule.rol_usuario }} </td>
+        <td mat-cell *matCellDef="let rule"> 
+          <ng-container  *ngFor="let role of rule.roles; let i = index">
+            {{ role.role }} 
+          </ng-container>
+        </td>
       </ng-container>
 
       <!-- Columna de Acciones -->

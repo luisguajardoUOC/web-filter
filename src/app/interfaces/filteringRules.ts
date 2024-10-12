@@ -4,15 +4,19 @@ export interface FilteringRule {
   url: string;
   type: string;
   reason?: string;
-  ip_usuario?: string;
-  role_usuario:  'student' | 'teacher' | 'public';
+  usuarios: User[];  // Lista de usuarios asociados a la regla
+  roles: Role[];     // Lista de roles asociados a la regla
 }
 
 export interface User {
   id: string;
   username: string;
-  user_ip: string;
+  userIP: string;
   email: string;
+  role: 'student' | 'teacher' | 'public';
+}
+export interface Role {
+  role_id: number;
   role: 'student' | 'teacher' | 'public';
 }
 
