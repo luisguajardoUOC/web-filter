@@ -119,7 +119,7 @@ export class FiltersComponent  implements OnInit {
               this.filteringRules = data;  // Actualizamos la lista de reglas
               this.getFilteringRules();
               this.getUsers();
-              this.spanRow('url');
+              this.spanRow('url', (rule)=> data.url);
               this.clearForm();  // Limpiar el formulario aquí de agregar
             },
             error: error => {  // Manejar el error
@@ -183,11 +183,16 @@ export class FiltersComponent  implements OnInit {
   }
   
 
-  spanRow1(key: string, accessor: (rule: any) => any) {
-    this.spans = {}; // Inicializamos `spans` para evitar acumulaciones previas
+  
+    getRowSpan(col: string | number, index: number) {    
+    return this.spans[index] && this.spans[index][col];   
+  }
+
+  spanRow(key: string, accessor: (rule: any) => any) {
+    this.spans = {}; // Inicializamos `spans`
   
     for (let i = 0; i < this.filteringRules.length;) {
-      const currentValue = accessor(this.filteringRules[i]); // Accedemos al valor que estamos agrupando
+      const currentValue = accessor(this.filteringRules[i]);
       let count = 1;
   
       // Contamos cuántas filas coinciden con el valor actual
@@ -203,27 +208,12 @@ export class FiltersComponent  implements OnInit {
         this.spans[i] = {};
       }
   
-      this.spans[i][key] = count; // Guardamos el `rowspan` en la posición adecuada
-      i += count; // Avanzamos al siguiente conjunto de valores únicos
+      // Guardamos el rowspan solo para las URLs
+      this.spans[i][key] = count; // Asignamos el valor de `count`
+      i += count; // Saltamos a la siguiente fila única
     }
-  }
-    getRowSpan(col: string | number, index: number) {    
-    return this.spans[index] && this.spans[index][col];   
-  }
+}
 
-  spanRow(key: string) {
-    this.spans = {}; // Inicializar `spans` para evitar acumulaciones previas
-    
-    for (let i = 0; i < this.filteringRules.length; i++) {
-      if (key === 'url') {
-        // Para la columna de URL, queremos que cada URL abarque siempre dos filas
-        this.spans[i] = { 'url': 2 }; // Asignar 2 para `rowspan`
-      } else {
-        // Para otras columnas, puedes manejar el rowspan como prefieras
-        this.spans[i] = { [key]: 1 }; // Si no es 'url', hacer que abarque una fila
-      }
-    }
-  }
   
   // Función para determinar el rowspan dinámico
 getRowSpan1(rule: FilteringRule, actionType: string): number {
