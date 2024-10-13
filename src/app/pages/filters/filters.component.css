@@ -11,3 +11,12 @@
   display: flex; /* Asegúrate de que el display sea flex */
   flex-direction: row; /* Cambia la dirección de los elementos a filas */
 }
+
+table {
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}

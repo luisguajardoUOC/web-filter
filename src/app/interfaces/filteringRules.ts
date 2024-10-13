@@ -14,10 +14,12 @@ export interface User {
   userIP: string;
   email: string;
   role: 'student' | 'teacher' | 'public';
+  action: 'bloquear' | 'autorizar';
 }
 export interface Role {
   role_id: number;
   role: 'student' | 'teacher' | 'public';
+  action: 'bloquear' | 'autorizar';
 }
 
 export interface Hisotry {

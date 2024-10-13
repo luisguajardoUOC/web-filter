@@ -15,7 +15,8 @@ export class UsersComponent  implements OnInit  {
     username: '',
     userIP: '',
     email: '',
-    role: 'public'
+    role: 'public',    
+    action: 'autorizar',
   };
   displayedColumns: string[] = ['username', 'userIP', 'role', 'timeStamp', 'actions'];
   constructor(private webFilterService: WebFilterService) {}
@@ -62,7 +63,8 @@ resetForm(): void {
     username: '',
     userIP: '',
     email: '',
-    role: 'public'
+    role: 'public',    
+    action:'bloquear',
   };
 }
 }

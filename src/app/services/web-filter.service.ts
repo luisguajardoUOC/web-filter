@@ -26,8 +26,9 @@ export class WebFilterService {
     }
 
     editeRule(data: any): Observable<any>{
+      const headers = { 'Content-Type': 'application/json' };
       // const body = { identifier: userIdentifier, rule: rule, action: action };
-      return this.http.post<any>(`${this.baseUrl}/edit_rule`, data);
+      return this.http.post<any>(`${this.baseUrl}/edit_rule`, data, {headers});
     }
 
     deleteRule(data:any): Observable<any>{
