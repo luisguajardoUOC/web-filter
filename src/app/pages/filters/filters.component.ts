@@ -31,14 +31,10 @@ export class FiltersComponent  implements OnInit {
         {
           "role_id": 1,
           "role": "publico",
-          "action": "bloquear"
+          "action": "autorizar"
         },{
           "role_id": 2,
           "role": "student",
-          "action": "bloquear"
-        },{
-          "role_id": 3,
-          "role": "teacher",
           "action": "autorizar"
         }
       ]
@@ -169,8 +165,10 @@ export class FiltersComponent  implements OnInit {
         // Modo de agregar nueva regla
       if (this.newRule.action === 'autorizar') {
         const newData = JSON.stringify(this.newRule);
-        this.webFilterService.addAuthorizedSite(newData).subscribe(data => {
+        this.webFilterService.addRule(newData).subscribe(data => {
           this.filteringRules = data;  // Actualizamos la lista de reglas
+          this.getFilteringRules();
+          this.getUsers();
           this.clearForm();  // Limpiar el formulario aquí de agregar
         });
       } else {
@@ -278,14 +276,55 @@ export class FiltersComponent  implements OnInit {
 
 
   // Función para determinar el rowspan dinámico
-  hasAuthorizedUsers(users: any[]): boolean {
-    return users.some(user => user.action === 'autorizar');
+  hasAuthorizedUsers(users: any[]): string {
+    console.log("roles",users);
+   // Si no hay ningún usuario con la acción 'autorizar'
+    if (!users.some(user => user.action === 'autorizar') &&
+          users.some(user => user.action === 'bloquear')) {      
+      return "los demas autorizados";
+    }
+    if( !users.some(user => user.action === 'autorizar') &&
+          !users.some(user => user.action === 'bloquear')) {
+      return 'Todos';
+    }
+
+    // Si al menos un usuario tiene la acción 'autorizar'
+    if (users.some(user => user.action === 'autorizar')) {
+      return 'autorizado';
+    }
+
+    return 'no autorizado';
   }
 
-  hasAuthorizedRoles(roles: any[]): boolean {
-    return roles.some(role => role.action === 'autorizar');
+  hasAuthorizedRoles(roles: any[]): boolean { 
+    if (roles.some(role => role.action === 'autorizar')){
+      return true;
+    }
+    return false;
+  }
+  
+  hasBlockedUsers(users: any[]): string {
+    if (!users.some(user => user.action === 'bloquear') &&
+          users.some(user => user.action === 'autorizar')) {
+      return "el resto bloqueado";
+    }
+    if( !users.some(user => user.action === 'autorizar') &&
+          !users.some(user => user.action === 'bloquear')) {
+      return 'Todos';
+    }
+
+    if (users.some(user => user.action === 'bloquear')) {
+      return 'bloqueado';
+    }
+    return 'no bloqueado';
   }
 
+  hasBlockedRoles(roles: any[]): boolean {
+    if (roles.some(role => role.action === 'bloquear')){
+      return true;
+    }
+    return false;
+  }
 
 
 }

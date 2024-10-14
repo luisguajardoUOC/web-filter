@@ -82,22 +82,32 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let rule of originalFilteringRules">
+      <ng-container *ngFor="let rule of filteringRules">
         <tr>
           <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
           <td rowspan="2">{{ rule.url }}</td>
           <td>Bloquear</td>
           <td>
             <!-- Mostramos solo los usuarios que están bloqueados -->
+             <ng-container *ngIf="hasBlockedUsers(rule.usuarios)=== 'bloqueado';  else noBlockedUsers">
             <ng-container *ngFor="let user of rule.usuarios">
               <div *ngIf="user.action === 'bloquear'">{{ user.userIP }}</div>
             </ng-container>
+          </ng-container>
+          <ng-template #noBlockedUsers>
+            <div>{{hasBlockedUsers(rule.usuarios)}}</div>
+          </ng-template>
           </td>
           <td>
             <!-- Mostramos los roles asociados a la acción de bloquear -->
+             <ng-container *ngIf="hasBlockedRoles(rule.roles);  else noBlockedRoles">
             <ng-container *ngFor="let role of rule.roles">
               <div *ngIf="role.action === 'bloquear'">{{ role.role }}</div>
             </ng-container>
+          </ng-container>
+          <ng-template #noBlockedRoles>
+            <div>{{"No Rule"}}</div>
+          </ng-template>
           </td>
         </tr>
 
@@ -105,24 +115,24 @@
           <td>Autorizar</td>
           <td>
             <!-- Mostramos solo los usuarios que están autorizados, o 'algo' si no hay autorizados -->
-            <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios); else noAuthorizedUsers">
+            <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios)=== 'autorizado';  else noAuthorizedUsers">
               <ng-container *ngFor="let user of rule.usuarios">
                 <div *ngIf="user.action === 'autorizar'">{{ user.userIP }}</div>
               </ng-container>
             </ng-container>
             <ng-template #noAuthorizedUsers>
-              <div>los demas usuarios</div>
+              <div>{{hasAuthorizedUsers(rule.usuarios)}}</div>
             </ng-template>
           </td>
           <td>
             <!-- Mostramos los roles asociados a la acción de autorizar, o 'algo' si no hay autorizados -->
-            <ng-container *ngIf="hasAuthorizedRoles(rule.roles); else noAuthorizedRoles">
+            <ng-container *ngIf="hasAuthorizedRoles(rule.roles);  else noAuthorizedRoles">
               <ng-container *ngFor="let role of rule.roles">
                 <div *ngIf="role.action === 'autorizar'">{{ role.role }}</div>
               </ng-container>
             </ng-container>
             <ng-template #noAuthorizedRoles>
-              <div>los demas roles</div>
+              <div>{{"No Rule"}}</div>
             </ng-template>
           </td>
         </tr>
