@@ -29,13 +29,17 @@ export class FiltersComponent  implements OnInit {
       ],
       "roles": [
         {
-          "role_id": 2,
+          "role_id": 1,
           "role": "publico",
           "action": "bloquear"
         },{
-          "role_id": 3,
+          "role_id": 2,
           "role": "student",
           "action": "bloquear"
+        },{
+          "role_id": 3,
+          "role": "teacher",
+          "action": "autorizar"
         }
       ]
     },
@@ -50,14 +54,17 @@ export class FiltersComponent  implements OnInit {
       ],
       "roles": [
         {
-          "role_id": 3,
-          "role": "estudiante",
-          "action": "autorizar"
-        },
-        {
-          "role_id": 4,
+          "role_id": 1,
           "role": "publico",
           "action": "bloquear"
+        },{
+          "role_id": 2,
+          "role": "student",
+          "action": "autorizar"
+        },{
+          "role_id": 3,
+          "role": "teacher",
+          "action": "autorizar"
         }
       ]
     }
