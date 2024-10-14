@@ -11,6 +11,60 @@ import { FilteringRule, Role, User } from '../../interfaces/filteringRules';
 export class FiltersComponent  implements OnInit {
 
   public filteringRules: FilteringRule[] = [];
+
+  originalFilteringRules  =  [
+    {
+      "url": "https://example.com",
+      "usuarios": [
+        {
+          "id": "2",
+          "userIP": "192.168.0.2",
+          "action": "bloquear"
+        },
+        {
+          "id": "3",
+          "userIP": "192.168.0.3",
+          "action": "bloquear"
+        }
+      ],
+      "roles": [
+        {
+          "role_id": 2,
+          "role": "publico",
+          "action": "bloquear"
+        },{
+          "role_id": 3,
+          "role": "student",
+          "action": "bloquear"
+        }
+      ]
+    },
+    {
+      "url": "https://another-site.com",
+      "usuarios": [
+        {
+          "id": "3",
+          "userIP": "192.168.0.3",
+          "action": "autorizar"
+        }
+      ],
+      "roles": [
+        {
+          "role_id": 3,
+          "role": "estudiante",
+          "action": "autorizar"
+        },
+        {
+          "role_id": 4,
+          "role": "publico",
+          "action": "bloquear"
+        }
+      ]
+    }
+  ]
+
+
+
   userIPs: string[] = ['192.168.0.1', '192.168.0.2', '192.168.0.3'];  // Lista para almacenar las IPs únicas
   displayedColumns: string[] = ['url', 'action', 'userIP', 'role', 'actionBtn']; // Definimos las columnas a mostrar en la tabla
   newRule: {
@@ -18,7 +72,7 @@ export class FiltersComponent  implements OnInit {
     url: string;
     type: string;
     reason?: string;
-    usuarios: User[]; 
+    usuarios: User[];
     roles?: Role[];
   } = {
     action: 'bloquear',  // Valor por defecto
@@ -32,7 +86,7 @@ export class FiltersComponent  implements OnInit {
     {action:'autorizar',  role: 'student', role_id: 1 },
     {action:'autorizar',  role: 'teacher', role_id: 2 },
     {action:'autorizar',  role: 'public', role_id: 3 }
-  ]; 
+  ];
   isUserIPSelected: boolean = false;
   isEventSelected: boolean = false;
   currentRule = { id: null, url: '', type: '', action: '', userIP: 'any', role: '' }; // Inicializamos una regla vacía
@@ -43,7 +97,10 @@ export class FiltersComponent  implements OnInit {
   public selectedRule: FilteringRule | null = null;
   spans: { [key: number]: { [key: string]: number } } = {};
 
-  constructor(private webFilterService: WebFilterService) {}
+  constructor(private webFilterService: WebFilterService)
+  {
+
+  }
   ngOnInit(): void {
     this.getFilteringRules();
     this.getUsers();
@@ -112,7 +169,7 @@ export class FiltersComponent  implements OnInit {
       } else {
         const newData = JSON.stringify(this.newRule);
         console.log("newData", newData);
-        
+
         this.webFilterService.addRule(newData)
           .subscribe({
             next: data => {  // Manejar la respuesta exitosa
@@ -134,7 +191,7 @@ export class FiltersComponent  implements OnInit {
           });
       }
     }
-    
+
   }
   // Método para eliminar una regla de filtrado
   deleteRule(data: any): void {
@@ -150,7 +207,7 @@ export class FiltersComponent  implements OnInit {
    // Método para editar una regla
    editRule(rule: FilteringRule) {
     console.log("edit",rule);
-    
+
     this.newRule = {
       ...rule,
       usuarios: rule.usuarios ? rule.usuarios.map((u: any) => u.userIP) : [],  // Mapear usuarios si los hay
@@ -169,7 +226,7 @@ export class FiltersComponent  implements OnInit {
   onEventSelectionChange(event: any) {
     // Si la IP seleccionada no es 'any', se deshabilita la selección de rol
     this.isEventSelected = event.value !== 'any';
-    this.newRule.usuarios =  []; 
+    this.newRule.usuarios =  [];
   }
   // Limpiar el formulario
   clearForm(): void {
@@ -181,20 +238,18 @@ export class FiltersComponent  implements OnInit {
       roles: [],         // Valor por defecto
     };
   }
-  
 
-  
-    getRowSpan(col: string | number, index: number) {    
-    return this.spans[index] && this.spans[index][col];   
-  }
+
+
+
 
   spanRow(key: string, accessor: (rule: any) => any) {
     this.spans = {}; // Inicializamos `spans`
-  
+
     for (let i = 0; i < this.filteringRules.length;) {
       const currentValue = accessor(this.filteringRules[i]);
       let count = 1;
-  
+
       // Contamos cuántas filas coinciden con el valor actual
       for (let j = i + 1; j < this.filteringRules.length; j++) {
         if (currentValue !== accessor(this.filteringRules[j])) {
@@ -202,29 +257,28 @@ export class FiltersComponent  implements OnInit {
         }
         count++;
       }
-  
+
       // Almacenar el `rowspan` calculado para esa fila
       if (!this.spans[i]) {
         this.spans[i] = {};
       }
-  
+
       // Guardamos el rowspan solo para las URLs
       this.spans[i][key] = count; // Asignamos el valor de `count`
       i += count; // Saltamos a la siguiente fila única
     }
 }
 
-  
+
   // Función para determinar el rowspan dinámico
-getRowSpan1(rule: FilteringRule, actionType: string): number {
-  // Verifica que los usuarios tengan un tipo correcto para 'action'
-  return rule.usuarios.filter(user => user.action === actionType).length || 1;
-}
-getRowSpan2(rule: any): number {
-  const userCount = rule.usuarios.length;
-  const roleCount = rule.roles.length;
-  
-  // Retornar el total de filas necesarias para mostrar la URL
-  return Math.max(userCount, roleCount);
-}
+  hasAuthorizedUsers(users: any[]): boolean {
+    return users.some(user => user.action === 'autorizar');
+  }
+
+  hasAuthorizedRoles(roles: any[]): boolean {
+    return roles.some(role => role.action === 'autorizar');
+  }
+
+
+
 }

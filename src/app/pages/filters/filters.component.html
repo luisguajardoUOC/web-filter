@@ -15,7 +15,7 @@
           <mat-label>URL</mat-label>
           <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
         </mat-form-field>
-          
+
 
         <mat-form-field>
           <mat-label>Acción</mat-label>
@@ -25,7 +25,7 @@
           </mat-select>
         </mat-form-field>
 
-         
+
       </div>
         <mat-divider style="margin-bottom: 20px; "></mat-divider>
         <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
@@ -35,7 +35,7 @@
         <mat-form-field>
           <mat-label>Seleccionar IP del Usuario</mat-label>
           <mat-select [(ngModel)]="newRule.usuarios" name="userIP"
-           
+
             multiple required>
             <mat-option value="any">Todos</mat-option>
             <mat-option *ngFor="let user of users" [value]="user.ip">
@@ -47,12 +47,12 @@
 
         <mat-form-field>
           <mat-label>Seleccionar por Rol</mat-label>
-          <mat-select [(ngModel)]="newRule.roles" name="role" 
-               multiple required>            
+          <mat-select [(ngModel)]="newRule.roles" name="role"
+               multiple required>
             <mat-option value="any">Todos</mat-option>
             <mat-option *ngFor="let rol of availableRoles" [value]="rol.role">
               {{ rol.role}}
-            </mat-option>           
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -69,68 +69,126 @@
 <mat-divider style="margin-bottom: 20px;"></mat-divider>
 
 
-<mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
-  <mat-card-content>
+<div class="container">
+  <h3>Reglas de Filtrado</h3>
 
-    <!-- Tabla de reglas de filtrado -->
-    <table mat-table [dataSource]="filteringRules" class="mat-elevation-z8" style="margin-top: 20px;">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Acción</th>
+        <th>IP</th>
+        <th>Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let rule of originalFilteringRules">
+        <tr>
+          <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
+          <td rowspan="2">{{ rule.url }}</td>
+          <td>Bloquear</td>
+          <td>
+            <!-- Mostramos solo los usuarios que están bloqueados -->
+            <ng-container *ngFor="let user of rule.usuarios">
+              <div *ngIf="user.action === 'bloquear'">{{ user.userIP }}</div>
+            </ng-container>
+          </td>
+          <td>
+            <!-- Mostramos los roles asociados a la acción de bloquear -->
+            <ng-container *ngFor="let role of rule.roles">
+              <div *ngIf="role.action === 'bloquear'">{{ role.role }}</div>
+            </ng-container>
+          </td>
+        </tr>
 
-      <!-- Columna URL -->
-      <ng-container matColumnDef="url">
-        <th mat-header-cell *matHeaderCellDef> URL </th>
-        <td mat-cell *matCellDef="let rule; let i= index"
-            [style.display]="getRowSpan('url', i) ? '' : 'none'"
-            [attr.rowspan]="getRowSpan('url', i)">      
-          {{ rule.url }} 
+        <tr>
+          <td>Autorizar</td>
+          <td>
+            <!-- Mostramos solo los usuarios que están autorizados, o 'algo' si no hay autorizados -->
+            <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios); else noAuthorizedUsers">
+              <ng-container *ngFor="let user of rule.usuarios">
+                <div *ngIf="user.action === 'autorizar'">{{ user.userIP }}</div>
+              </ng-container>
+            </ng-container>
+            <ng-template #noAuthorizedUsers>
+              <div>los demas usuarios</div>
+            </ng-template>
+          </td>
+          <td>
+            <!-- Mostramos los roles asociados a la acción de autorizar, o 'algo' si no hay autorizados -->
+            <ng-container *ngIf="hasAuthorizedRoles(rule.roles); else noAuthorizedRoles">
+              <ng-container *ngFor="let role of rule.roles">
+                <div *ngIf="role.action === 'autorizar'">{{ role.role }}</div>
+              </ng-container>
+            </ng-container>
+            <ng-template #noAuthorizedRoles>
+              <div>los demas roles</div>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+
+<!--
+<div class="container">
+  <h3>Reglas de Filtrado</h3>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Acción</th>
+        <th>IP</th>
+        <th>Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td rowspan="2">HTTP</td>
+        <td>Bloquear</td>
+        <td>
+          192.168.1.10<br>
+          192.168.1.11
         </td>
-      </ng-container>
-     
-
-      <!-- Columna de Acción 
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef> Acción </th>
-        <td mat-cell *matCellDef="let rule"> {{ rule.action }} </td>
-      </ng-container>-->
-       <!-- Columna Acción -->
-       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef> Acción </th>
-        <td mat-cell *matCellDef="let user"> {{ user.action }} </td>        
-      </ng-container>
-
-      <!-- Columna IP del Usuario -->
-      <ng-container matColumnDef="userIP">
-        <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
-        <td mat-cell *matCellDef="let rule"> 
-          <ng-container *ngFor="let user of rule.usuarios; let i = index">
-          {{ user.userIP }}&nbsp;
-          </ng-container>
+        <td>
+          Student<br>
+          Teacher
         </td>
-      </ng-container>
-
-      <!-- Columna Rol del Usuario -->
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef> Rol del Usuario </th>
-        <td mat-cell *matCellDef="let rule"> 
-          <ng-container  *ngFor="let role of rule.roles; let i = index">
-            {{ role.role }}&nbsp;
-          </ng-container>
+      </tr>
+      <tr>
+        <td>Autorizar</td>
+        <td>
+          192.168.1.20<br>
+          192.168.1.21
         </td>
-      </ng-container>
-
-      <!-- Columna de Acciones -->
-      <ng-container matColumnDef="actionBtn">
-        <th mat-header-cell *matHeaderCellDef>Edit/Delete</th>
-        <td mat-cell *matCellDef="let rule">
-          <button mat-button color="primary" (click)="editRule(rule)">Editar</button>
-          <button mat-button color="warn" (click)="deleteRule(rule)">Delete</button>
+        <td>
+          Student<br>
+          Teacher
         </td>
-      </ng-container>
+      </tr>
 
-      <!-- Fila del encabezado -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-      <!-- Fila de datos -->
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
+      <tr>
+        <td rowspan="2">HTTP</td>
+        <td>Bloquear</td>
+        <td>
+          192.168.1.30<br>
+          192.168.1.60
+        </td>
+        <td>Public</td>
+      </tr>
+      <tr>
+        <td>Autorizar</td>
+        <td>
+          192.168.1.100<br>
+          192.168.1.121
+        </td>
+        <td>Public</td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->

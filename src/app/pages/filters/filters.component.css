@@ -20,3 +20,17 @@ th, td {
   text-align: left;
   padding: 8px;
 }
+
+
+.table-bordered tbody tr {
+  border-bottom: 1px solid #ccc; /* Añadir un borde gris debajo de cada fila */
+}
+
+.cell-divider {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+.cell-divider:last-child {
+  border-bottom: none;
+}
