@@ -1,11 +1,11 @@
 <mat-divider></mat-divider>
 
 <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
-  <mat-card-header>
+  <mat-card-header fxLayout="row">
     <mat-card-title>Reglas de Filtrado</mat-card-title>
   </mat-card-header>
 
-  <mat-card-content>
+  <mat-card-content  fxLayout="row">
     <!-- Formulario para agregar nueva regla -->
     <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
       <mat-divider></mat-divider>

@@ -7,9 +7,19 @@
   margin-bottom: 10px;
 }
 
-.mat-mdc-card {
-  display: flex; /* Asegúrate de que el display sea flex */
-  flex-direction: row; /* Cambia la dirección de los elementos a filas */
+/* Centrar el header */
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+/* Añadir espacio entre header y content */
+mat-card-content {
+  padding: 20px;
+  justify-content: center;
 }
 
 .table {
