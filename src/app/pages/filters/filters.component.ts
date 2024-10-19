@@ -167,12 +167,14 @@ export class FiltersComponent  implements OnInit {
     });
     } else {
         // Modo de agregar nueva regla
-      if (this.newRule.action === 'autorizar') {
-        const newData = JSON.stringify(this.newRule);
-        this.webFilterService.addAuthorizedSite(newData).subscribe(data => {
-          this.filteringRules = data;  // Actualizamos la lista de reglas
-          this.clearForm();  // Limpiar el formulario aquí de agregar
-        });
+        if (this.newRule.action === 'autorizar') {
+          const newData = JSON.stringify(this.newRule);
+          this.webFilterService.addRule(newData).subscribe(data => {
+            this.filteringRules = data;  // Actualizamos la lista de reglas
+            this.getFilteringRules();
+            this.getUsers();
+            this.clearForm();  // Limpiar el formulario aquí de agregar
+          });
       } else {
         const newData = JSON.stringify(this.newRule);
         console.log("newData", newData);

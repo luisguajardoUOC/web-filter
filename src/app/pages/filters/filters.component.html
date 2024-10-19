@@ -10,7 +10,7 @@
     <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
       <mat-divider></mat-divider>
       <mat-card-subtitle>Información de la Regla</mat-card-subtitle>
-      <div fxLayout="row" fxLayoutGap="20px" >
+      <div fxLayout="row" fxLayoutGap="20px">
         <mat-form-field fxFlex="45%">
           <mat-label>URL</mat-label>
           <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
@@ -27,16 +27,14 @@
 
 
       </div>
-        <mat-divider style="margin-bottom: 20px; "></mat-divider>
-        <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
-        <!-- Tercera fila con un campo -->
+      <mat-divider style="margin-bottom: 20px; "></mat-divider>
+      <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
+      <!-- Tercera fila con un campo -->
       <div fxLayout="row" fxLayoutGap="20px">
 
         <mat-form-field>
           <mat-label>Seleccionar IP del Usuario</mat-label>
-          <mat-select [(ngModel)]="newRule.usuarios" name="userIP"
-
-            multiple required>
+          <mat-select [(ngModel)]="newRule.usuarios" name="userIP" multiple required>
             <mat-option value="any">Todos</mat-option>
             <mat-option *ngFor="let user of users" [value]="user.ip">
               {{ user.ip}}
@@ -47,8 +45,7 @@
 
         <mat-form-field>
           <mat-label>Seleccionar por Rol</mat-label>
-          <mat-select [(ngModel)]="newRule.roles" name="role"
-               multiple required>
+          <mat-select [(ngModel)]="newRule.roles" name="role" multiple required>
             <mat-option value="any">Todos</mat-option>
             <mat-option *ngFor="let rol of availableRoles" [value]="rol.role">
               {{ rol.role}}
@@ -58,10 +55,10 @@
 
       </div>
 
-        <!-- Contenedor del botón con alineación -->
-        <div fxLayout="row" fxLayoutAlign="end">
-          <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
-        </div>
+      <!-- Contenedor del botón con alineación -->
+      <div fxLayout="row" fxLayoutAlign="end">
+        <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>
@@ -69,67 +66,84 @@
 <mat-divider style="margin-bottom: 20px;"></mat-divider>
 
 
-<div class="container">
-  <h3>Reglas de Filtrado</h3>
-
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>URL</th>
-        <th>Acción</th>
-        <th>IP</th>
-        <th>Rol</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let rule of originalFilteringRules">
+<mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+  <mat-card-header>
+    <mat-card-title>Tabla de reglas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
-          <td rowspan="2">{{ rule.url }}</td>
-          <td>Bloquear</td>
-          <td>
-            <!-- Mostramos solo los usuarios que están bloqueados -->
-            <ng-container *ngFor="let user of rule.usuarios">
-              <div *ngIf="user.action === 'bloquear'">{{ user.userIP }}</div>
-            </ng-container>
-          </td>
-          <td>
-            <!-- Mostramos los roles asociados a la acción de bloquear -->
-            <ng-container *ngFor="let role of rule.roles">
-              <div *ngIf="role.action === 'bloquear'">{{ role.role }}</div>
-            </ng-container>
-          </td>
+          <th>URL</th>
+          <th>Acción</th>
+          <th>IP</th>
+          <th>Rol</th>
         </tr>
-
-        <tr>
-          <td>Autorizar</td>
-          <td>
-            <!-- Mostramos solo los usuarios que están autorizados, o 'algo' si no hay autorizados -->
-            <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios); else noAuthorizedUsers">
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let rule of filteringRules">
+          <tr>
+            <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
+            <td rowspan="2">{{ rule.url }}</td>
+            <td>Bloquear</td>
+            <td>
+              <!-- Mostramos solo los usuarios que están bloqueados -->
               <ng-container *ngFor="let user of rule.usuarios">
-                <div *ngIf="user.action === 'autorizar'">{{ user.userIP }}</div>
+                <div *ngIf="user.action === 'bloquear'">{{ user.userIP }}</div>
               </ng-container>
-            </ng-container>
-            <ng-template #noAuthorizedUsers>
-              <div>los demas usuarios</div>
-            </ng-template>
-          </td>
-          <td>
-            <!-- Mostramos los roles asociados a la acción de autorizar, o 'algo' si no hay autorizados -->
-            <ng-container *ngIf="hasAuthorizedRoles(rule.roles); else noAuthorizedRoles">
+            </td>
+            <td>
+              <!-- Mostramos los roles asociados a la acción de bloquear -->
               <ng-container *ngFor="let role of rule.roles">
-                <div *ngIf="role.action === 'autorizar'">{{ role.role }}</div>
+                <div *ngIf="role.action === 'bloquear'">{{ role.role }}</div>
               </ng-container>
-            </ng-container>
-            <ng-template #noAuthorizedRoles>
-              <div>los demas roles</div>
-            </ng-template>
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
+            </td>
+            <td colspan="3">
+              <button (click)="editRule(rule)">Editar</button>
+            </td>
+            <td rowspan="2">
+              <button (click)="deleteRule(rule)">Eliminar</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Autorizar</td>
+            <td>
+              <!-- Mostramos solo los usuarios que están autorizados, o 'algo' si no hay autorizados -->
+              <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios); else noAuthorizedUsers">
+                <ng-container *ngFor="let user of rule.usuarios">
+                  <div *ngIf="user.action === 'autorizar'">{{ user.userIP }}</div>
+                </ng-container>
+              </ng-container>
+              <ng-template #noAuthorizedUsers>
+                <div>los demas usuarios</div>
+              </ng-template>
+            </td>
+            <td>
+              <!-- Mostramos los roles asociados a la acción de autorizar, o 'algo' si no hay autorizados -->
+              <ng-container *ngIf="hasAuthorizedRoles(rule.roles); else noAuthorizedRoles">
+                <ng-container *ngFor="let role of rule.roles">
+                  <div *ngIf="role.action === 'autorizar'">{{ role.role }}</div>
+                </ng-container>
+              </ng-container>
+              <ng-template #noAuthorizedRoles>
+                <div>los demas roles</div>
+              </ng-template>
+            </td>
+            <td colspan="3">
+              <button (click)="editRule(rule)">Editar</button>
+            </td>
+
+
+          </tr>
+
+
+
+        </ng-container>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
 
 
 <!--

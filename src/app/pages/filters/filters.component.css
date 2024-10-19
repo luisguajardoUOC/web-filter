@@ -12,13 +12,38 @@
   flex-direction: row; /* Cambia la dirección de los elementos a filas */
 }
 
-table {
+.table {
+  border-collapse: collapse;
   width: 100%;
+  margin: 0 auto; /* Centra la tabla horizontalmente */
+    margin-top: 20px; /* Añade un margen superior */
 }
 
-th, td {
-  text-align: left;
-  padding: 8px;
+/* Aplica bordes a las celdas (tanto th como td) */
+.table th, .table td {
+  border: 1px solid black;
+  padding: 8px; /* Espacio interno de cada celda */
+  text-align: center; /* Alinear el contenido a la izquierda */
+}
+/* Agregar estilo a los botones */
+.table button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+
+}
+
+.table button:hover {
+  background-color: #0056b3;
+}
+
+table thead th {
+  border-bottom: 1px solid #ccc;
+  background-color: #6daaeb;
+  text-align: center;
 }
 
 
@@ -26,11 +51,4 @@ th, td {
   border-bottom: 1px solid #ccc; /* Añadir un borde gris debajo de cada fila */
 }
 
-.cell-divider {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-}
-.cell-divider:last-child {
-  border-bottom: none;
-}
+
