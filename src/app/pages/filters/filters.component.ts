@@ -103,7 +103,7 @@ export class FiltersComponent  implements OnInit {
   newRoles: Role | undefined;
   public selectedRule: FilteringRule | null = null;
   spans: { [key: number]: { [key: string]: number } } = {};
-
+  proxyStatus: boolean | undefined;
   constructor(private webFilterService: WebFilterService)
   {
 
@@ -111,6 +111,9 @@ export class FiltersComponent  implements OnInit {
   ngOnInit(): void {
     this.getFilteringRules();
     this.getUsers();
+    this.getProxyStatus();
+
+
     // this.postFilteringRules(arg: any);
   }
 
@@ -185,7 +188,6 @@ export class FiltersComponent  implements OnInit {
               this.filteringRules = data;  // Actualizamos la lista de reglas
               this.getFilteringRules();
               this.getUsers();
-              this.spanRow('url', (rule)=> data.url);
               this.clearForm();  // Limpiar el formulario aquí de agregar
             },
             error: error => {  // Manejar el error
@@ -252,31 +254,7 @@ export class FiltersComponent  implements OnInit {
 
 
 
-  spanRow(key: string, accessor: (rule: any) => any) {
-    this.spans = {}; // Inicializamos `spans`
 
-    for (let i = 0; i < this.filteringRules.length;) {
-      const currentValue = accessor(this.filteringRules[i]);
-      let count = 1;
-
-      // Contamos cuántas filas coinciden con el valor actual
-      for (let j = i + 1; j < this.filteringRules.length; j++) {
-        if (currentValue !== accessor(this.filteringRules[j])) {
-          break;
-        }
-        count++;
-      }
-
-      // Almacenar el `rowspan` calculado para esa fila
-      if (!this.spans[i]) {
-        this.spans[i] = {};
-      }
-
-      // Guardamos el rowspan solo para las URLs
-      this.spans[i][key] = count; // Asignamos el valor de `count`
-      i += count; // Saltamos a la siguiente fila única
-    }
-}
 
 
   // Función para determinar el rowspan dinámico
@@ -288,6 +266,21 @@ export class FiltersComponent  implements OnInit {
     return roles.some(role => role.action === 'autorizar');
   }
 
+  reloadProxy()  {
+  this.webFilterService.reoladProxy().subscribe(data => {
+    console.log("data", data);
+  })
+ }
+ getProxyStatus() {
+  this.webFilterService.getProxyStatus()
+  .subscribe( {
+    next:data => {
+      this.proxyStatus = true;
+    },
+    error :(error) => {
+      this.proxyStatus = false;
+    }
 
-
+  });
 }
+ }

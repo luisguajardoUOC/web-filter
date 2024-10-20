@@ -1,3 +1,10 @@
+
+<mat-card-content>
+  <mat-icon [ngStyle]="{'color': proxyStatus ? 'green' : 'red'}">
+    fiber_manual_record
+  </mat-icon>
+  <p>Status Proxy : {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+</mat-card-content>
 <mat-divider></mat-divider>
 
 <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
@@ -142,6 +149,9 @@
         </ng-container>
       </tbody>
     </table>
+    <button mat-stroked-button (click)="reloadProxy()">
+      <mat-icon>refresh</mat-icon> Reload Proxy
+    </button>
   </mat-card-content>
 </mat-card>
 

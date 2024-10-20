@@ -19,7 +19,7 @@ export class WebFilterService {
     getRules(): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/list_rules`);
     }
-    
+
     addRule(data:any): Observable<any> {
       const headers = { 'Content-Type': 'application/json' };
       return this.http.post<any>(`${this.baseUrl}/add_rule`, data, {headers});
@@ -36,7 +36,7 @@ export class WebFilterService {
     }
 
     // Servicio para agregar una nueva regla de filtrado
-   
+
 
 
     // Servicio para eliminar una regla de filtrado
@@ -53,11 +53,11 @@ export class WebFilterService {
     }
 
     createUser(user: any): Observable<any> {
-      return this.http.post<any>(`${this.baseUrl}/create-user`, user);
+      return this.http.post<any>(`${this.baseUrl}/add_user`, user);
     }
 
     updateUser(user: any): Observable<any> {
-      return this.http.post<any>(`${this.baseUrl}/update-user`, user);
+      return this.http.post<any>(`${this.baseUrl}/edit_user`, user);
     }
 
     deleteUser(id: string): Observable<any> {
@@ -75,17 +75,19 @@ export class WebFilterService {
   }
    // Iniciar el proxy
    startProxy(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/start_proxy`, {});
+    return this.http.get<any>(`${this.baseUrl}/start_proxy`);
   }
 
   // Detener el proxy
   stopProxy(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/stop_proxy`, {});
+    return this.http.get<any>(`${this.baseUrl}/stop_proxy`);
   }
 
    // Obtener el estado del proxy
    getProxyStatus(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/proxy_status`);
   }
-
+  reoladProxy(): Observable<any>  {
+    return this.http.get<any>(`${this.baseUrl}/reload_proxy`);
+  }
 }
