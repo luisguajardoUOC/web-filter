@@ -6,7 +6,7 @@
 </mat-card-content>
 <mat-divider></mat-divider>
 
-<div fxLayout="row" fxLayoutGap="20px" style="margin-bottom: 20px;">
+<div fxLayout="row" fxLayoutGap="20px" style="margin-bottom: 20px; justify-content: space-evenly;">
   <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
     <mat-card-header fxLayout="row">
       <mat-card-title>Reglas de Filtrado</mat-card-title>
@@ -78,13 +78,13 @@
 
     <mat-card-content fxLayout="row">
       <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
-        <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="row" fxLayoutGap="20px" style="justify-content: center;">
           <mat-form-field fxFlex="45%">
             <mat-label>URL</mat-label>
             <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
           </mat-form-field>
         </div>
-        <div fxLayout="row" fxLayoutAlign="end">
+        <div fxLayout="row" fxLayoutAlign="end" style="justify-content: center;">
           <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
         </div>
       </form>
