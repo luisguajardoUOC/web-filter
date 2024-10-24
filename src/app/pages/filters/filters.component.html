@@ -1,4 +1,3 @@
-
 <mat-card-content>
   <mat-icon [ngStyle]="{'color': proxyStatus ? 'green' : 'red'}">
     fiber_manual_record
@@ -7,69 +6,91 @@
 </mat-card-content>
 <mat-divider></mat-divider>
 
-<mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
-  <mat-card-header fxLayout="row">
-    <mat-card-title>Reglas de Filtrado</mat-card-title>
-  </mat-card-header>
+<div fxLayout="row" fxLayoutGap="20px" style="margin-bottom: 20px;">
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+    <mat-card-header fxLayout="row">
+      <mat-card-title>Reglas de Filtrado</mat-card-title>
+    </mat-card-header>
 
-  <mat-card-content  fxLayout="row">
-    <!-- Formulario para agregar nueva regla -->
-    <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
-      <mat-divider></mat-divider>
-      <mat-card-subtitle>Información de la Regla</mat-card-subtitle>
-      <div fxLayout="row" fxLayoutGap="20px">
-        <mat-form-field fxFlex="45%">
-          <mat-label>URL</mat-label>
-          <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
-        </mat-form-field>
-
-
-        <mat-form-field>
-          <mat-label>Acción</mat-label>
-          <mat-select [(ngModel)]="newRule.action" name="action" required>
-            <mat-option value="autorizar">Autorizar</mat-option>
-            <mat-option value="bloquear">Bloquear</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <mat-card-content fxLayout="row">
+      <!-- Formulario para agregar nueva regla -->
+      <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
+        <mat-divider></mat-divider>
+        <mat-card-subtitle>Información de la Regla</mat-card-subtitle>
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="45%">
+            <mat-label>URL</mat-label>
+            <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
+          </mat-form-field>
 
 
-      </div>
-      <mat-divider style="margin-bottom: 20px; "></mat-divider>
-      <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
-      <!-- Tercera fila con un campo -->
-      <div fxLayout="row" fxLayoutGap="20px">
-
-        <mat-form-field>
-          <mat-label>Seleccionar IP del Usuario</mat-label>
-          <mat-select [(ngModel)]="newRule.usuarios" name="userIP" multiple required>
-            <mat-option value="any">Todos</mat-option>
-            <mat-option *ngFor="let user of users" [value]="user.ip">
-              {{ user.ip}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Acción</mat-label>
+            <mat-select [(ngModel)]="newRule.action" name="action" required>
+              <mat-option value="autorizar">Autorizar</mat-option>
+              <mat-option value="bloquear">Bloquear</mat-option>
+            </mat-select>
+          </mat-form-field>
 
 
-        <mat-form-field>
-          <mat-label>Seleccionar por Rol</mat-label>
-          <mat-select [(ngModel)]="newRule.roles" name="role" multiple required>
-            <mat-option value="any">Todos</mat-option>
-            <mat-option *ngFor="let rol of availableRoles" [value]="rol.role">
-              {{ rol.role}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        </div>
+        <mat-divider style="margin-bottom: 20px; "></mat-divider>
+        <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
+        <!-- Tercera fila con un campo -->
+        <div fxLayout="row" fxLayoutGap="20px">
 
-      </div>
+          <mat-form-field>
+            <mat-label>Seleccionar IP del Usuario</mat-label>
+            <mat-select [(ngModel)]="newRule.usuarios" name="userIP" multiple required>
+              <mat-option value="any">Todos</mat-option>
+              <mat-option *ngFor="let user of users" [value]="user.ip">
+                {{ user.ip}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      <!-- Contenedor del botón con alineación -->
-      <div fxLayout="row" fxLayoutAlign="end">
-        <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
 
+          <mat-form-field>
+            <mat-label>Seleccionar por Rol</mat-label>
+            <mat-select [(ngModel)]="newRule.roles" name="role" multiple required>
+              <mat-option value="any">Todos</mat-option>
+              <mat-option *ngFor="let rol of availableRoles" [value]="rol.role">
+                {{ rol.role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+        <!-- Contenedor del botón con alineación -->
+        <div fxLayout="row" fxLayoutAlign="end">
+          <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+    <mat-card-header fxLayout="row">
+      <mat-card-title>Filtrado por palabra</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="row">
+      <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="45%">
+            <mat-label>URL</mat-label>
+            <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end">
+          <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
 <mat-divider style="margin-bottom: 20px;"></mat-divider>
 
 
@@ -154,6 +175,10 @@
     </button>
   </mat-card-content>
 </mat-card>
+
+<mat-divider style="margin-bottom: 20px;"></mat-divider>
+
+
 
 
 <!--

@@ -1,0 +1,13 @@
+
+.mat-mdc-notch-piece:last-child {
+  display: none;
+}
+
+.mat-mdc-notch-piece.mdc-notched-outline__trailing {
+  display: none;
+}
+
+mat-grid-tile {
+  display: flex;
+  justify-content: center;
+}

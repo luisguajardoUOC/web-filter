@@ -9,6 +9,8 @@ import { WebFilterService } from '../../services/web-filter.service';
 export class SettingsComponent implements OnInit {
 
   proxyStatus: boolean | undefined;
+  proxyMessage: string = '';
+  certificateFile: File | undefined;
 
 constructor (private webFilterService: WebFilterService) {}
   ngOnInit(): void {
@@ -42,9 +44,38 @@ constructor (private webFilterService: WebFilterService) {}
       this.proxyStatus = false;
     });
   }
+  sendMessage() {
+    this.messageChange(this.proxyMessage);
+  }
+   messageChange(message: string) {
+    this.webFilterService.changeMessage(message).subscribe({
+      next: () => console.log('Mensaje enviado correctamente'),
+      error: (err) => console.error('Error al enviar el mensaje', err),
+    });
+    }
+    onCertificateUpload(event: Event) {
+      const input = event.target as HTMLInputElement;
+      if (input.files && input.files.length > 0) {
+        this.certificateFile = input.files[0];
+        console.log('Archivo cargado:', this.certificateFile.name);
+      }
+    }
 
+    uploadCertificate() {
+      if (this.certificateFile) {
+        // Lógica para enviar el archivo de certificado al servidor
+        this.webFilterService.uploadCertificate(this.certificateFile).subscribe(() => {
+          console.log('Certificado subido con éxito');
+        });
+      } else {
+        console.error('No se ha seleccionado ningún certificado');
+      }
+  }
 
 }
+
+
+
 
 /* this.webFilterService.addRule(newData)
           .subscribe({

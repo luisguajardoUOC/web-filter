@@ -64,14 +64,22 @@ export class WebFilterService {
       return this.http.delete<any>(`${this.baseUrl}/delete-user/${id}`);
     }
 
+    changeMessage(message: string): Observable<any> {
+      return this.http.post<any>(`${this.baseUrl}/change_message`, message);
+    }
 
+    uploadCertificate(file: File): Observable<any> {
+      const formData = new FormData();
+      formData.append('file', file);
+      return this.http.post<any>(`${this.baseUrl}/upload_certificate`, formData);
+    }
 
 
 
 
   // Servicio para obtener el historial
   getHistory(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/api/history`);
+    return this.http.get<any>(`${this.baseUrl}/history`);
   }
    // Iniciar el proxy
    startProxy(): Observable<any> {

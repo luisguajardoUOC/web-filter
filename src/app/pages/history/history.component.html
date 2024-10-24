@@ -6,6 +6,22 @@
   </mat-card-header>
 
   <mat-card-content>
+    <!-- <mat-grid-list cols="2" gutterSize="16px" style="width: 100%;margin-bottom: 20px;">
+          Campo de entrada para filtrar por IP del usuario -->
+    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Filtrar por IP del Usuario</mat-label>
+        <input matInput (keyup)="applyFilter($event, 'userIP')" placeholder="Introduce la IP">
+      </mat-form-field>
+
+      <!-- Campo de entrada para filtrar por rol -->
+
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Filtrar por Rol</mat-label>
+          <input matInput (keyup)="applyFilter($event,'role')" placeholder="Introduce el rol">
+        </mat-form-field>
+    </div>
+
     <table mat-table [dataSource]="historyData" class="mat-elevation-z8" style="width: 100%;">
 
       <!-- Columna ID -->

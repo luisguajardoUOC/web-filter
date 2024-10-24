@@ -7,9 +7,35 @@
   </mat-card-header>
   <mat-card-content>
     <p>Status: {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" *ngIf="!proxyStatus" (click)="startProxy()">Iniciar Proxy</button>
+      <button mat-raised-button color="warn" *ngIf="proxyStatus" (click)="stopProxy()">Detener Proxy</button>
+      <mat-divider></mat-divider>
+    </mat-card-actions>
+
+    <mat-divider style="margin-bottom: 20px; margin-top: 20px"></mat-divider>
+
+    <!-- Campo de texto para enviar el mensaje -->
+    <mat-card-subtitle>Mensaje para mostrar al usuario en bloqueo</mat-card-subtitle>
+    <mat-form-field style="width: 50%; margin-top: 20px;">
+
+      <mat-label>Aceso bloqueado por el proxy</mat-label>
+      <input matInput [(ngModel)]="proxyMessage" placeholder="Escribe tu mensaje aquí">
+    </mat-form-field>
+    <mat-card-actions style="margin-top: 10px;">
+      <button mat-raised-button color="accent" (click)="sendMessage()">Enviar Mensaje</button>
+    </mat-card-actions>
+
+    <mat-divider style="margin-bottom: 20px; margin-top: 20px"></mat-divider>
+
+    <!-- Cargar Certificado SSL -->
+    <mat-card-subtitle>Cargar Certificado SSL</mat-card-subtitle>
+    <input type="file" (change)="onCertificateUpload($event)">
+    <mat-card-actions style="margin-top: 10px;">
+      <button mat-raised-button color="primary" (click)="uploadCertificate()">Subir Certificado</button>
+    </mat-card-actions>
+
+    <!-- Botón para enviar el mensaje -->
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" *ngIf="!proxyStatus" (click)="startProxy()">Iniciar Proxy</button>
-    <button mat-raised-button color="warn" *ngIf="proxyStatus" (click)="stopProxy()">Detener Proxy</button>
-  </mat-card-actions>
+
 </mat-card>
