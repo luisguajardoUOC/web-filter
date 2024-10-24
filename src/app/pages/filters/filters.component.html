@@ -76,18 +76,25 @@
       <mat-card-title>Filtrado por palabra</mat-card-title>
     </mat-card-header>
 
-    <mat-card-content fxLayout="row">
-      <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
+    <mat-card-content fxLayout="column">
+      <form (ngSubmit)="addMaliciousWord()" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="20px" style="justify-content: center;">
-          <mat-form-field fxFlex="45%">
+          <mat-form-field>
             <mat-label>URL</mat-label>
             <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="end" style="justify-content: center;">
-          <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
+          <button mat-raised-button color="primary" type="submit">Agregar palabra</button>
         </div>
       </form>
+      <div>
+        <mat-form-field style="width: 100%; margin-top:20px">
+          <mat-label>Autosize textarea</mat-label>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5" [(ngModel)]="maliciousWords" name="maliciousWords"></textarea>
+        </mat-form-field>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

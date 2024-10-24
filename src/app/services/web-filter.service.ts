@@ -47,6 +47,15 @@ export class WebFilterService {
       return this.http.post<any>(`${this.baseUrl}/add_authorized_sites`, rule);
     }
 
+    // palabras claves
+    getKeywords(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/get_keywords`);
+    }
+
+    addKeyword(data: any): Observable<any> {
+      return this.http.post<any>(`${this.baseUrl}/add_keyword`, data);
+    }
+
     // Servicio para obtener los usuarios
     getUsers(): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/get_users`);

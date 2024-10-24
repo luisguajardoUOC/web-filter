@@ -11,6 +11,12 @@ import { FilteringRule, Role, User } from '../../interfaces/filteringRules';
 export class FiltersComponent  implements OnInit {
 
   public filteringRules: FilteringRule[] = [];
+  public maliciousWords: string[] = [];
+  public maliciousWordsText: string = '';
+  public newMaliciousWord: string = '';
+
+  //maliciousWords = ["sex","rock","adult"];
+
 
   originalFilteringRules  =  [
     {
@@ -227,6 +233,25 @@ export class FiltersComponent  implements OnInit {
     console.log("this.newRule", this.newRule);
     this.isEditing = true; // Cambiamos a modo edición
   }
+
+
+
+  getMaliciousWords(){
+    this.webFilterService.getKeywords().subscribe(data => {
+      this.maliciousWords = data;
+      this.maliciousWordsText = this.maliciousWords.join('\n');
+    })
+  }
+
+  addMaliciousWord(): void {
+    this.webFilterService.addKeyword(this.newMaliciousWord).subscribe(data => {
+      this.getMaliciousWords();
+      this.newMaliciousWord = '';
+    })
+  }
+
+
+
    // Método que se ejecuta al cambiar la selección de la IP
    onUserIPSelectionChange(event: any) {
     // Si la IP seleccionada no es 'any', se deshabilita la selección de rol
