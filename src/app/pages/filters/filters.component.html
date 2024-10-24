@@ -80,8 +80,8 @@
       <form (ngSubmit)="addMaliciousWord()" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="20px" style="justify-content: center;">
           <mat-form-field>
-            <mat-label>URL</mat-label>
-            <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
+            <mat-label>word</mat-label>
+            <input matInput placeholder="Introduce una palabra" [(ngModel)]="newMaliciousWord.keyword" name="newMaliciousWord" required>
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="end" style="justify-content: center;">

@@ -20,7 +20,15 @@
     <mat-form-field style="width: 50%; margin-top: 20px;">
 
       <mat-label>Aceso bloqueado por el proxy</mat-label>
-      <input matInput [(ngModel)]="proxyMessage" placeholder="Escribe tu mensaje aquí">
+      <input matInput [(ngModel)]="proxyMessages.message_rule" placeholder="Escribe tu mensaje aquí">
+    </mat-form-field>
+    <!--<mat-card-actions style="margin-top: 10px;">
+      <button mat-raised-button color="accent" (click)="sendMessage()">Enviar Mensaje</button>
+    </mat-card-actions>-->
+
+    <mat-form-field style="width: 50%; margin-top: 20px;">
+      <mat-label>Aceso bloqueado por el proxy</mat-label>
+      <input matInput [(ngModel)]="proxyMessages.message_word" placeholder="Escribe tu mensaje aquí">
     </mat-form-field>
     <mat-card-actions style="margin-top: 10px;">
       <button mat-raised-button color="accent" (click)="sendMessage()">Enviar Mensaje</button>

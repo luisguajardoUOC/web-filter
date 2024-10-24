@@ -53,7 +53,8 @@ export class WebFilterService {
     }
 
     addKeyword(data: any): Observable<any> {
-      return this.http.post<any>(`${this.baseUrl}/add_keyword`, data);
+      const headers = { 'Content-Type': 'application/json' };
+      return this.http.post<any>(`${this.baseUrl}/add_keyword`, data, {headers});
     }
 
     // Servicio para obtener los usuarios
@@ -74,7 +75,8 @@ export class WebFilterService {
     }
 
     changeMessage(message: string): Observable<any> {
-      return this.http.post<any>(`${this.baseUrl}/change_message`, message);
+      const headers = { 'Content-Type': 'application/json' };
+      return this.http.post<any>(`${this.baseUrl}/change_message`, message, {headers});
     }
 
     uploadCertificate(file: File): Observable<any> {

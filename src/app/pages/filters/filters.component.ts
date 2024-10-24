@@ -13,7 +13,11 @@ export class FiltersComponent  implements OnInit {
   public filteringRules: FilteringRule[] = [];
   public maliciousWords: string[] = [];
   public maliciousWordsText: string = '';
-  public newMaliciousWord: string = '';
+  public newMaliciousWord: {
+    keyword: string;
+  } = {
+    keyword: ''
+  };
 
   //maliciousWords = ["sex","rock","adult"];
 
@@ -116,6 +120,7 @@ export class FiltersComponent  implements OnInit {
   }
   ngOnInit(): void {
     this.getFilteringRules();
+    this.getMaliciousWords();
     this.getUsers();
     this.getProxyStatus();
 
@@ -238,15 +243,18 @@ export class FiltersComponent  implements OnInit {
 
   getMaliciousWords(){
     this.webFilterService.getKeywords().subscribe(data => {
+      console.log("MaliciousWords", data);
       this.maliciousWords = data;
       this.maliciousWordsText = this.maliciousWords.join('\n');
     })
   }
 
   addMaliciousWord(): void {
-    this.webFilterService.addKeyword(this.newMaliciousWord).subscribe(data => {
+    const newData = JSON.stringify(this.newMaliciousWord);
+    console.log("newData", newData);
+    this.webFilterService.addKeyword(newData).subscribe(data => {
       this.getMaliciousWords();
-      this.newMaliciousWord = '';
+      //this.newMaliciousWord = '';
     })
   }
 
