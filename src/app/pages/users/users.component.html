@@ -1,7 +1,7 @@
 <p>users works!</p>
 
-<div class="container">
-  <mat-card>
+<div class="content">
+  <mat-card class="card">
     <mat-card-header>
       <mat-card-title>Gestión de Usuarios</mat-card-title>
     </mat-card-header>
@@ -10,25 +10,19 @@
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
 
         <!-- Campo para el nombre de usuario -->
-        <mat-form-field appearance="outline">
+        <mat-form-field >
           <mat-label>Nombre de Usuario</mat-label>
           <input matInput [(ngModel)]="user.username" name="username" required>
         </mat-form-field>
 
         <!-- Campo para la IP del usuario -->
-        <mat-form-field appearance="outline">
+        <mat-form-field >
           <mat-label>IP del Usuario</mat-label>
           <input matInput [(ngModel)]="user.userIP" name="userIP" required>
         </mat-form-field>
 
-        <!-- Campo para el correo electrónico -->
-        <mat-form-field appearance="outline">
-          <mat-label>Correo Electrónico</mat-label>
-          <input matInput [(ngModel)]="user.email" name="email" type="email">
-        </mat-form-field>
-
         <!-- Campo para seleccionar el rol -->
-        <mat-form-field appearance="outline">
+        <mat-form-field >
           <mat-label>Rol del Usuario</mat-label>
           <mat-select [(ngModel)]="user.role" name="role" required>
             <mat-option value="student">Estudiante</mat-option>
@@ -48,7 +42,7 @@
   </mat-card>
 
   <!-- Tabla de usuarios -->
-  <mat-card>
+  <mat-card class="card">
     <mat-card-header>
       <mat-card-title>Lista de Usuarios</mat-card-title>
     </mat-card-header>

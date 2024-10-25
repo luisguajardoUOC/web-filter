@@ -17,5 +17,31 @@ mat-card-content {
   justify-content: center;
 }
 mat-card {
-  margin-left: 50px;
+
+  width: auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 80%; /* Ajusta este valor según el tamaño que desees */
+  text-align: center;
 }
