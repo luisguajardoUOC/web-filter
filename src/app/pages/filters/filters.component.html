@@ -134,7 +134,7 @@
               </ng-container>
             </td>
             <td colspan="3">
-              <button (click)="editRule(rule)">Editar</button>
+              <button (click)="editRule(rule,'bloquear')">Editar</button>
             </td>
             <td rowspan="2">
               <button (click)="deleteRule(rule)">Eliminar</button>
@@ -162,11 +162,11 @@
                 </ng-container>
               </ng-container>
               <ng-template #noAuthorizedRoles>
-                <div>los demas roles</div>
+                <div></div>
               </ng-template>
             </td>
             <td colspan="3">
-              <button (click)="editRule(rule)">Editar</button>
+              <button (click)="editRule(rule,'autorizar')">Editar</button>
             </td>
 
 

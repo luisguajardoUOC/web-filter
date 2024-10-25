@@ -227,13 +227,14 @@ export class FiltersComponent  implements OnInit {
   }
 
    // Método para editar una regla
-   editRule(rule: FilteringRule) {
+   editRule(rule: FilteringRule, action: string): void {
     console.log("edit",rule);
 
     this.newRule = {
       ...rule,
-      usuarios: rule.usuarios ? rule.usuarios.map((u: any) => u.userIP) : [],  // Mapear usuarios si los hay
-      roles: rule.roles ? rule.roles.map((r: any) => r.role) : [] // Mapear roles si los hay
+      usuarios: rule.usuarios ? rule.usuarios.filter((u: any) => u.action === action).map((u: any) => u.userIP) : [],  // Mapear usuarios si los hay
+      roles: rule.roles ? rule.roles.filter((r: any) => r.action === action).map((r: any) => r.role) : [],
+      action: action
     };
     console.log("this.newRule", this.newRule);
     this.isEditing = true; // Cambiamos a modo edición

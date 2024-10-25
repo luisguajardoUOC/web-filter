@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'users', component: UsersComponent },
       { path: 'help', component: HelpComponent },
       { path: 'logout', component: LogoutComponent },
-      { path: '**', redirectTo: '' }
+      { path: '**', redirectTo: 'dashboard' }
     ]
   }
 ];
