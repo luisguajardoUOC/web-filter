@@ -12,14 +12,11 @@ export class HistoryComponent {
 
   // hystoriData: Hisotry[] = [];
   // Datos de ejemplo
-  historyData: Hisotry[] = [
-    { id: '1', url: 'https://example.com', stateUrl: 'bloqueada', type: 'social', userIP: '192.168.1.1', role: 'student', date: '2024-10-01' },
-    { id: '2', url: 'https://educacion.com', stateUrl: 'accedida', type: 'educacion', userIP: '192.168.1.2', role: 'teacher', date: '2024-10-01' },
-    { id: '3', url: 'https://socialmedia.com', stateUrl: 'bloqueada', type: 'entretenimiento', userIP: '192.168.1.3', role: 'public', date: '2024-10-01' },
-    { id: '3', url: 'https://socialmedia.com', stateUrl: 'bloqueada', type: 'entretenimiento', userIP: '192.168.1.4', role: 'public', date: '2024-10-01' }
-  ];
+  historyData: Hisotry[] = [];
+  FilterhistoryData: Hisotry[] = [];
+
   // Definir las columnas a mostrar en la tabla
-  displayedColumns: string[] = ['id', 'url', 'stateUrl', 'type', 'userIP', 'role', 'date'];
+  displayedColumns: string[] = [ 'url', 'action',  'userIP', 'role', 'date'];
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
     this.getHisotryUsers();
@@ -29,22 +26,30 @@ export class HistoryComponent {
   getHisotryUsers(): void {
     this.webFilterService.getHistory().subscribe(data => {
       console.log(data);
-      this.historyData = data;
+      this.historyData = data.map((item: any) => ({
+        ...item,
+        timestamp: item.timestamp.replace(" GMT", "")
+      }));
+      this.FilterhistoryData = [...this.historyData];
     });
   }
   filteredHistoryData = new MatTableDataSource(this.historyData);
   applyFilter(event: Event, type: string) {
-    console.log("event",event);
-    const filterValue = (event.target as HTMLInputElement).value;
-    console.log("filterValue",filterValue);
-
-    //this.historyData = this.historyData.filter((item: any) => item.userIP.includes(filterValue));
-    this.historyData = this.historyData.filter((item: any) => {
-      const a = item.userIP.includes(filterValue)
-      const b =item.role.includes(filterValue)
-      return  a || b
-      //item.role.inclues(filterValue)
-    });
-    console.log("this.historyData",this.historyData);
+    //console.log("event",event);
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    //console.log("filterValue",filterValue);
+    if (filterValue === '') {
+      this.FilterhistoryData = [...this.historyData];
+    } else {
+      //this.historyData = this.historyData.filter((item: any) => item.userIP.includes(filterValue));
+        this.FilterhistoryData = this.historyData.filter((item: any) => {
+        const a = item.userIP.includes(filterValue)
+        const b = item.user_rol.includes(filterValue)
+        const c = item.url.includes(filterValue)
+        return  a || b || c
+        //item.role.inclues(filterValue)
+      });
+      console.log("this.historyData",this.FilterhistoryData);
+    }
   }
 }

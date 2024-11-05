@@ -24,10 +24,10 @@ export interface Role {
 
 export interface Hisotry {
   id?: string;
+  user_id: number;
   url: string;
-  stateUrl: string;
-  type: string;
-  userIP?: string;
-  role: 'student' | 'teacher' | 'public';
-  date: string;
+  action: string;
+  userIP: string;
+  user_rol: 'student' | 'teacher' | 'public';
+  timestamp: string;
 }
