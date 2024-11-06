@@ -19,6 +19,7 @@ import { HelpComponent } from './pages/help/help.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { UsersComponent } from './pages/users/users.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ChartsModule } from './charts/charts.modules';
 
 
 
@@ -43,7 +44,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MaterialModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartsModule
   ],
   providers: [
     provideAnimationsAsync()

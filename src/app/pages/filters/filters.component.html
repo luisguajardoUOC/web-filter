@@ -34,6 +34,16 @@
 
 
         </div>
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="45%">
+            <mat-label>tipo</mat-label>
+            <mat-select [(ngModel)]="newRule.type" name="type" multiple required>
+              <mat-option *ngFor="let type of availableTypes" [value]="type.type">
+                {{ type.type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <mat-divider style="margin-bottom: 20px; "></mat-divider>
         <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
         <!-- Tercera fila con un campo -->

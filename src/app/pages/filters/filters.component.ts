@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebFilterService } from '../../services/web-filter.service';
-import { FilteringRule, Role, User } from '../../interfaces/filteringRules';
+import { FilteringRule, Role, Types, User } from '../../interfaces/filteringRules';
 
 @Component({
   selector: 'app-filters',
@@ -19,82 +19,20 @@ export class FiltersComponent  implements OnInit {
     keyword: ''
   };
 
-  //maliciousWords = ["sex","rock","adult"];
-
-
-  originalFilteringRules  =  [
-    {
-      "url": "https://example.com",
-      "usuarios": [
-        {
-          "id": "2",
-          "userIP": "192.168.0.2",
-          "action": "bloquear"
-        },
-        {
-          "id": "3",
-          "userIP": "192.168.0.3",
-          "action": "bloquear"
-        }
-      ],
-      "roles": [
-        {
-          "role_id": 1,
-          "role": "publico",
-          "action": "bloquear"
-        },{
-          "role_id": 2,
-          "role": "student",
-          "action": "bloquear"
-        },{
-          "role_id": 3,
-          "role": "teacher",
-          "action": "autorizar"
-        }
-      ]
-    },
-    {
-      "url": "https://another-site.com",
-      "usuarios": [
-        {
-          "id": "3",
-          "userIP": "192.168.0.3",
-          "action": "autorizar"
-        }
-      ],
-      "roles": [
-        {
-          "role_id": 1,
-          "role": "publico",
-          "action": "bloquear"
-        },{
-          "role_id": 2,
-          "role": "student",
-          "action": "autorizar"
-        },{
-          "role_id": 3,
-          "role": "teacher",
-          "action": "autorizar"
-        }
-      ]
-    }
-  ]
-
-
 
   userIPs: string[] = ['192.168.0.1', '192.168.0.2', '192.168.0.3'];  // Lista para almacenar las IPs únicas
   displayedColumns: string[] = ['url', 'action', 'userIP', 'role', 'actionBtn']; // Definimos las columnas a mostrar en la tabla
   newRule: {
     action: string;
     url: string;
-    type: string;
+    type: Types[];
     reason?: string;
     usuarios: User[];
     roles?: Role[];
   } = {
     action: 'bloquear',  // Valor por defecto
     url: 'any',             // Inicialmente vacío
-    type: 'no category',            // Valor por defecto
+    type: [],            // Valor por defecto
     reason: 'no reason',
     usuarios: [],
     roles: [] ,
@@ -103,6 +41,9 @@ export class FiltersComponent  implements OnInit {
     {action:'autorizar',  role: 'student', role_id: 1 },
     {action:'autorizar',  role: 'teacher', role_id: 2 },
     {action:'autorizar',  role: 'public', role_id: 3 }
+  ];
+  availableTypes: Types[] = [
+    {id: 1, type:'sport'}, {id:2, type:'politics'}, {id:3, type:'social'}, {id:4, type:'entertainment'}, {id:5, type:'health'}, {id:6, type:'news'}, {id:7, type:'sport'}
   ];
   isUserIPSelected: boolean = false;
   isEventSelected: boolean = false;
@@ -278,7 +219,7 @@ export class FiltersComponent  implements OnInit {
     this.newRule = {
       action: 'bloquear',  // Valor por defecto
       url: '',             // Inicialmente vacío
-      type: 'a' ,
+      type: [],           // Inicialmente vacío] ,
       usuarios: [],
       roles: [],         // Valor por defecto
     };

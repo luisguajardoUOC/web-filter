@@ -2,7 +2,7 @@ export interface FilteringRule {
   id: number;
   action: string;
   url: string;
-  type: string;
+  type: Types[];
   reason?: string;
   usuarios: User[];  // Lista de usuarios asociados a la regla
   roles: Role[];     // Lista de roles asociados a la regla
@@ -30,4 +30,9 @@ export interface Hisotry {
   userIP: string;
   user_rol: 'student' | 'teacher' | 'public';
   timestamp: string;
+}
+
+export interface Types {
+  id: number;
+  type: 'sport' | 'politics' | 'social' | 'entertainment' | 'health' | 'news' | 'sport' ;
 }
