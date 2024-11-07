@@ -89,6 +89,6 @@ body, html {
 }
 
 .card {
-  width: 80%; /* Ajusta este valor según el tamaño que desees */
+  width: auto; /* Ajusta este valor según el tamaño que desees */
   text-align: center;
 }

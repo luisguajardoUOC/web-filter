@@ -1,12 +1,15 @@
-<mat-card-content>
-  <mat-icon [ngStyle]="{'color': proxyStatus ? 'green' : 'red'}">
+<mat-card-content fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <mat-icon [ngStyle]="{'color': proxyStatus ? 'green' : 'red'}" >
     fiber_manual_record
   </mat-icon>
-  <p>Status Proxy : {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+  <p style="margin: 0 !important;">Status Proxy : {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+  <button mat-stroked-button (click)="reloadProxy()">
+    <mat-icon>refresh</mat-icon> Reload Proxy
+  </button>
 </mat-card-content>
-<mat-divider></mat-divider>
 
-<div fxLayout="row" fxLayoutGap="20px" style="margin-bottom: 20px; justify-content: space-evenly;">
+
+<div fxLayout="row" fxLayoutGap="20px" style="margin-bottom: 20px;margin-left: 50px; justify-content: space-evenly;">
   <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
     <mat-card-header fxLayout="row">
       <mat-card-title>Reglas de Filtrado</mat-card-title>
@@ -88,10 +91,12 @@
 
     <mat-card-content fxLayout="column">
       <form (ngSubmit)="addMaliciousWord()" fxLayout="column" fxLayoutGap="10px">
+        <mat-divider></mat-divider>
         <div fxLayout="row" fxLayoutGap="20px" style="justify-content: center;">
           <mat-form-field>
             <mat-label>word</mat-label>
-            <input matInput placeholder="Introduce una palabra" [(ngModel)]="newMaliciousWord.keyword" name="newMaliciousWord" required>
+            <input matInput placeholder="Introduce una palabra" [(ngModel)]="newMaliciousWord.keyword"
+              name="newMaliciousWord" required>
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="end" style="justify-content: center;">
@@ -108,7 +113,7 @@
     </mat-card-content>
   </mat-card>
 </div>
-<mat-divider style="margin-bottom: 20px;"></mat-divider>
+
 
 
 <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
@@ -178,83 +183,10 @@
             <td colspan="3">
               <button (click)="editRule(rule,'autorizar')">Editar</button>
             </td>
-
-
           </tr>
-
-
-
         </ng-container>
       </tbody>
     </table>
-    <button mat-stroked-button (click)="reloadProxy()">
-      <mat-icon>refresh</mat-icon> Reload Proxy
-    </button>
   </mat-card-content>
 </mat-card>
 
-<mat-divider style="margin-bottom: 20px;"></mat-divider>
-
-
-
-
-<!--
-<div class="container">
-  <h3>Reglas de Filtrado</h3>
-
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>URL</th>
-        <th>Acción</th>
-        <th>IP</th>
-        <th>Rol</th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <tr>
-        <td rowspan="2">HTTP</td>
-        <td>Bloquear</td>
-        <td>
-          192.168.1.10<br>
-          192.168.1.11
-        </td>
-        <td>
-          Student<br>
-          Teacher
-        </td>
-      </tr>
-      <tr>
-        <td>Autorizar</td>
-        <td>
-          192.168.1.20<br>
-          192.168.1.21
-        </td>
-        <td>
-          Student<br>
-          Teacher
-        </td>
-      </tr>
-
-
-      <tr>
-        <td rowspan="2">HTTP</td>
-        <td>Bloquear</td>
-        <td>
-          192.168.1.30<br>
-          192.168.1.60
-        </td>
-        <td>Public</td>
-      </tr>
-      <tr>
-        <td>Autorizar</td>
-        <td>
-          192.168.1.100<br>
-          192.168.1.121
-        </td>
-        <td>Public</td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
