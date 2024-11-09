@@ -14,17 +14,20 @@ export class HistoryComponent {
   // Datos de ejemplo
   historyData: Hisotry[] = [];
   FilterhistoryData: Hisotry[] = [];
+  month: number = new Date().getMonth() + 1;
 
   // Definir las columnas a mostrar en la tabla
   displayedColumns: string[] = [ 'url', 'action',  'userIP', 'role', 'date'];
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
-    this.getHisotryUsers();
+     // `getMonth()` devuelve 0 para enero, así que sumamos 1
+    console.log(`Mes actual: ${this.month}`);
+    this.getHisotryUsers(this.month);
     // this.postFilteringRules(arg: any);
   }
 
-  getHisotryUsers(): void {
-    this.webFilterService.getHistory().subscribe(data => {
+  getHisotryUsers(month:number): void {
+    this.webFilterService.getHistoryForLast6Months().subscribe(data => {
       console.log(data);
       this.historyData = data.map((item: any) => ({
         ...item,
@@ -46,10 +49,13 @@ export class HistoryComponent {
         const a = item.userIP.includes(filterValue)
         const b = item.user_rol.includes(filterValue)
         const c = item.url.includes(filterValue)
+
         return  a || b || c
         //item.role.inclues(filterValue)
       });
       console.log("this.historyData",this.FilterhistoryData);
     }
-  }
+    }
 }
+
+

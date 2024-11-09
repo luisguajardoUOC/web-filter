@@ -47,6 +47,7 @@ export class UsersComponent  implements OnInit  {
   }
   // Eliminar usuario
   onDelete(id: string): void {
+    console.log("id",id);
     this.webFilterService.deleteUser(id).subscribe(() => {
       this.getUsers();
     });

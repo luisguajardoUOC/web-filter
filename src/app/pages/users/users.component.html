@@ -34,7 +34,6 @@
         <!-- Botones de acción -->
         <div class="buttons">
           <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.form.valid">Guardar</button>
-          <button mat-raised-button color="warn" type="button" (click)="onDelete(user.id)">Eliminar</button>
         </div>
 
       </form>
@@ -79,6 +78,7 @@
           <th mat-header-cell *matHeaderCellDef> Acciones </th>
           <td mat-cell *matCellDef="let user">
             <button mat-button (click)="onEdit(user)">Editar</button>
+            <button mat-button (click)="onDelete(user.id)">Delete</button>
           </td>
         </ng-container>
 

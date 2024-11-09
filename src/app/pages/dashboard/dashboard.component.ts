@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit{
    filteringRules: any[] = [];
    activityLogs: any[] = [];
    securityAlert: any = null;
+   month: number = new Date().getMonth() + 1;
 
    // Variables para los gráficos
    dailyData: any;
@@ -49,7 +50,8 @@ export class DashboardComponent implements OnInit{
 
   // Llamadas para inicializar los datos del dashboard
   initializeDashboardData(): void {
-    this.webFilterService.getHistory().subscribe(data => {
+    console.log(`Mes actual: ${this.month}`);
+    this.webFilterService.getHistoryForLast6Months().subscribe(data => {
       this.processDashboardData(data, 'daily');
       this.processDashboardData(data, 'monthly');
     });

@@ -53,6 +53,6 @@ body, html {
 }
 
 .card {
-  width: 80%;
+  width: auto;
   text-align: center;
 }
