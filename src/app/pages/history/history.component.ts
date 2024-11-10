@@ -15,18 +15,23 @@ export class HistoryComponent {
   historyData: Hisotry[] = [];
   FilterhistoryData: Hisotry[] = [];
   month: number = new Date().getMonth() + 1;
-
+  monthFilter: any = '';
+  monthFilteredData: any;
+  months: string[] = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  ];
   // Definir las columnas a mostrar en la tabla
   displayedColumns: string[] = [ 'url', 'action',  'userIP', 'role', 'date'];
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
      // `getMonth()` devuelve 0 para enero, así que sumamos 1
     console.log(`Mes actual: ${this.month}`);
-    this.getHisotryUsers(this.month);
+    this.getHisotryUsers();
     // this.postFilteringRules(arg: any);
   }
 
-  getHisotryUsers(month:number): void {
+  getHisotryUsers(): void {
     this.webFilterService.getHistoryForLast6Months().subscribe(data => {
       console.log(data);
       this.historyData = data.map((item: any) => ({
@@ -55,6 +60,25 @@ export class HistoryComponent {
       });
       console.log("this.historyData",this.FilterhistoryData);
     }
+    }
+
+    applyMonthFilter() {
+        // Asignar el nombre del mes según monthFilter
+      if (this.monthFilter >= 1 && this.monthFilter <= 12) {
+        this.monthFilteredData = this.months[this.monthFilter - 1];  // Convertir el número a nombre del mes
+
+        this.webFilterService.getHistory(this.monthFilter).subscribe(data => {
+          console.log(data);
+          this.historyData = data.map((item: any) => ({
+            ...item,
+            timestamp: item.timestamp.replace(" GMT", "")
+          }));
+          this.FilterhistoryData = [...this.historyData];
+        });
+      } else {
+        this.monthFilteredData = '';  // Si el mes es inválido, dejar en blanco
+        this.getHisotryUsers();
+      }
     }
 }
 

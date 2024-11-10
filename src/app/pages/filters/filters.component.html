@@ -121,6 +121,10 @@
     <mat-card-title>Tabla de reglas</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <mat-form-field  style="width: 100%;">
+      <mat-label>Filtrar URL</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Introduce la IP">
+    </mat-form-field>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -131,7 +135,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let rule of filteringRules">
+        <ng-container *ngFor="let rule of filteringRulesUnique?.length ? filteringRulesUnique : filteringRules">
           <tr>
             <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
             <td rowspan="2">{{ rule.url }}</td>

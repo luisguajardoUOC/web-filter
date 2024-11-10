@@ -18,6 +18,7 @@ export class FiltersComponent  implements OnInit {
   } = {
     keyword: ''
   };
+  filteringRulesUnique: FilteringRule[] = [];
 
 
   userIPs: string[] = ['192.168.0.1', '192.168.0.2', '192.168.0.3'];  // Lista para almacenar las IPs únicas
@@ -74,7 +75,18 @@ export class FiltersComponent  implements OnInit {
     this.webFilterService.getRules().subscribe(data => {
       console.log("data", data);
       this.filteringRules = data.rules || [];
+      console.log("this.filteringRulesUnique", this.filteringRulesUnique);
+      // Asumiendo que ya tienes filteringRules y filteringRulesUnique definidos
+      if (this.filteringRulesUnique.length > 0 && this.filteringRulesUnique[0]?.url) {
+        // Solo filtra si filteringRulesUnique tiene al menos un elemento y 'url' está definida
+        this.filteringRulesUnique = this.filteringRules.filter(rule =>
+            rule.url === this.filteringRulesUnique[0].url);
+      } /*else {
+        // Si filteringRulesUnique está vacío o sin datos válidos, asigna todas las reglas
+        this.filteringRulesUnique = [...this.filteringRules];
+      }*/
       console.log("this.filteringRules", this.filteringRules);
+      console.log("this.filteringRulesUnique", this.filteringRulesUnique);
       console.log("newRules", this.newRule);
       // Reemplazar 'null' o 'any' con 'ALL' en ip_usuario
       this.filteringRules = this.filteringRules.map((rule, index) => {
@@ -116,6 +128,7 @@ export class FiltersComponent  implements OnInit {
           this.getFilteringRules();
           this.getUsers();
           this.clearForm();  // Limpiamos el formulario después de editar
+          this.isEditing = false;
       },
       error: error => {
         alert(error.error);      }
@@ -181,6 +194,23 @@ export class FiltersComponent  implements OnInit {
     this.isEditing = true; // Cambiamos a modo edición
   }
 
+  applyFilter(event:any){
+    //console.log("event",event);
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    //console.log("filterValue",filterValue);
+    if (filterValue === '') {
+      //this.filteringRulesUnique = [...this.filteringRules];
+      this.filteringRulesUnique = [];
+    } else {
+      //this.historyData = this.historyData.filter((item: any) => item.userIP.includes(filterValue));
+        this.filteringRulesUnique = this.filteringRules.filter((item: any) => {
+        const a = item.url.includes(filterValue)
+        return  a
+        //item.role.inclues(filterValue)
+      });
+      console.log("filteringRulesUnique",this.filteringRulesUnique);
+    }
+  }
 
 
   getMaliciousWords(){
