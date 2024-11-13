@@ -35,11 +35,8 @@ export class WebFilterService {
       return this.http.post<any>(`${this.baseUrl}/filter/delete_rule`, data);
     }
 
-    // Servicio para agregar una nueva regla de filtrado
 
-
-
-    // Servicio para eliminar una regla de filtrado
+    // Servicio para eliminar una regla de filtrado NO SE UTILIZAN
     deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/filter/delete_rules`);
     }
@@ -47,7 +44,7 @@ export class WebFilterService {
       return this.http.post<any>(`${this.baseUrl}/filter/add_authorized_sites`, rule);
     }
 
-    // palabras claves
+    // Servicio de gestión de  palabras claves
     getKeywords(): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/filter/get_keywords`);
     }
@@ -74,11 +71,13 @@ export class WebFilterService {
       return this.http.delete<any>(`${this.baseUrl}/auth/delete_user/${id}`);
     }
 
+    // servicio para cambiar el mensaje
     changeMessage(message: string): Observable<any> {
       const headers = { 'Content-Type': 'application/json' };
       return this.http.post<any>(`${this.baseUrl}/other/change_message`, message, {headers});
     }
 
+    // servicio para subida de certificado
     uploadCertificate(file: File): Observable<any> {
       const formData = new FormData();
       formData.append('file', file);
@@ -86,28 +85,25 @@ export class WebFilterService {
     }
 
 
-
-
   // Servicio para obtener el historial
   getHistory(month:number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/history/history/${month}`);
   }
 
-  // Servicio para obtener el historial de los últimos 6 meses
   getHistoryForLast6Months(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/history/history`);
   }
-   // Iniciar el proxy
-   startProxy(): Observable<any> {
+   // Servicio de gestión de proxy
+  startProxy(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/proxy/start_proxy`);
   }
 
-  // Detener el proxy
+  // --  Detener el proxy
   stopProxy(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/proxy/stop_proxy`);
   }
 
-   // Obtener el estado del proxy
+   // -- Obtener el estado del proxy
    getProxyStatus(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/proxy/proxy_status`);
   }
