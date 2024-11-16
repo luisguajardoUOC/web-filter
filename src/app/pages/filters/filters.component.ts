@@ -32,7 +32,7 @@ export class FiltersComponent  implements OnInit {
     roles?: Role[];
   } = {
     action: 'bloquear',  // Valor por defecto
-    url: 'any',             // Inicialmente vacío
+    url: '',             // Inicialmente vacío
     type: [],            // Valor por defecto
     reason: 'no reason',
     usuarios: [],
@@ -115,6 +115,14 @@ export class FiltersComponent  implements OnInit {
   addRule(): void {
     // Validar que la URL no esté vacía
     if (!this.newRule.url) {
+      alert('La URL no puede estar vacía.');
+      return;
+    }
+    // Expresión regular para validar la URL sin path
+    const urlPattern = /^(https?:\/\/)([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
+    if (!urlPattern.test(this.newRule.url)) {
+      alert('El formato de la URL no es válido o incluye un path. Introduce solo el dominio.');
       return;
     }
      // Si estamos en modo edición (la regla tiene un id), actualizamos la regla
