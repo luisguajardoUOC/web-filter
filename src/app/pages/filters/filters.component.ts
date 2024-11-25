@@ -144,6 +144,7 @@ export class FiltersComponent  implements OnInit {
     } else {
         // Modo de agregar nueva regla
         if (this.newRule.action === 'autorizar') {
+
           const newData = JSON.stringify(this.newRule);
           this.webFilterService.addRule(newData).subscribe(data => {
             this.filteringRules = data;  // Actualizamos la lista de reglas
@@ -153,7 +154,6 @@ export class FiltersComponent  implements OnInit {
           });
       } else {
         const newData = JSON.stringify(this.newRule);
-        console.log("newData", newData);
 
         this.webFilterService.addRule(newData)
           .subscribe({
