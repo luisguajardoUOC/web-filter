@@ -35,7 +35,6 @@ export class WebFilterService {
       return this.http.post<any>(`${this.baseUrl}/filter/delete_rule`, data);
     }
 
-
     // Servicio para eliminar una regla de filtrado NO SE UTILIZAN
     deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/filter/delete_rules`);
@@ -80,7 +79,7 @@ export class WebFilterService {
     // servicio para subida de certificado
     uploadCertificate(file: File): Observable<any> {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('certificate', file);
       return this.http.post<any>(`${this.baseUrl}/other/upload_certificate`, formData);
     }
 

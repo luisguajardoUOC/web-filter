@@ -8,10 +8,15 @@ import { HistoryComponent } from './pages/history/history.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UsersComponent } from './pages/users/users.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 const routes: Routes = [
-  { path: '', component: LayoutComponent,
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirigir siempre al login al inicio
+  {
+    path: '',
+    component: LayoutComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'filters', component: FiltersComponent },
@@ -20,9 +25,10 @@ const routes: Routes = [
       { path: 'users', component: UsersComponent },
       { path: 'help', component: HelpComponent },
       { path: 'logout', component: LogoutComponent },
-      { path: '**', redirectTo: 'dashboard' }
-    ]
-  }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Redirección interna a dashboard
+    ],
+  },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }, // Cualquier ruta no definida redirige al login
 ];
 
 @NgModule({

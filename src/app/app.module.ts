@@ -20,6 +20,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { UsersComponent } from './pages/users/users.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ChartsModule } from './charts/charts.modules';
+import { LoginComponent} from './pages/login/login.component';
 
 
 
@@ -34,7 +35,8 @@ import { ChartsModule } from './charts/charts.modules';
     SettingsComponent,
     HelpComponent,
     LogoutComponent,
-    UsersComponent
+    UsersComponent,
+    LoginComponent
 
   ],
   imports: [
