@@ -25,17 +25,20 @@ export class TrafficChartComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['trafficData'] || changes['chartTitle']) {
+    if ((changes['trafficData'] || changes['chartTitle']) && this.trafficData?.series?.length) {
       this.updateChartOptions();
+    } else {
+      console.warn('Datos de tráfico no válidos:', this.trafficData);
     }
   }
 
+
   updateChartOptions(): void {
     this.chartOptions = {
-      series: this.trafficData.series,
+      series: this.trafficData.series || [],
       chart: { type: 'bar', height: 350 },
-      title: { text: this.chartTitle },
-      xaxis: { categories: this.trafficData.labels }
+      title: { text: this.chartTitle || 'Sin título' },
+      xaxis: { categories: this.trafficData.labels || [] }
     };
   }
 }

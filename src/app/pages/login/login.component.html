@@ -1,6 +1,9 @@
 <div class="login">
-  <form class="custom-form">
-    <h1>Login</h1>
+  <form class="custom-form" (ngSubmit)="login()">
+    <h1>
+      <img src="/assets/doNotEnter_2.jpg" alt="Proxy Logo" class="proxy-logo" />
+      Login
+    </h1>
     <input
       type="user"
       [(ngModel)]="user"
@@ -15,6 +18,6 @@
       placeholder="Password"
       required="required"
     />
-    <button type="submit" (click)="login()">Log in</button>
+    <button type="submit">Log in</button>
   </form>
 </div>

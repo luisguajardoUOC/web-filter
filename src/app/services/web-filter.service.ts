@@ -20,17 +20,17 @@ export class WebFilterService {
       return this.http.get<any>(`${this.baseUrl}/filter/list_rules`);
     }
 
+    // Servicio para agregar una regla de filtrado
     addRule(data:any): Observable<any> {
       const headers = { 'Content-Type': 'application/json' };
       return this.http.post<any>(`${this.baseUrl}/filter/add_rule`, data, {headers});
     }
-
+    // Servicio para editar una regla de filtrado
     editeRule(data: any): Observable<any>{
       const headers = { 'Content-Type': 'application/json' };
-      // const body = { identifier: userIdentifier, rule: rule, action: action };
       return this.http.post<any>(`${this.baseUrl}/filter/edit_rule`, data, {headers});
     }
-
+    // Servicio para eliminar una regla de filtrado
     deleteRule(data:any): Observable<any>{
       return this.http.post<any>(`${this.baseUrl}/filter/delete_rule`, data);
     }
@@ -39,6 +39,7 @@ export class WebFilterService {
     deleteBlockedSite(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/filter/delete_rules`);
     }
+    // Servicio de gestión de  sitios autorizados
     addAuthorizedSite(rule: string): Observable<any> {
       return this.http.post<any>(`${this.baseUrl}/filter/add_authorized_sites`, rule);
     }
@@ -47,7 +48,7 @@ export class WebFilterService {
     getKeywords(): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/filter/get_keywords`);
     }
-
+    // Servicio de gestión de  palabras claves
     addKeyword(data: any): Observable<any> {
       const headers = { 'Content-Type': 'application/json' };
       return this.http.post<any>(`${this.baseUrl}/filter/add_keyword`, data, {headers});
@@ -57,15 +58,15 @@ export class WebFilterService {
     getUsers(): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/auth/get_users`);
     }
-
+    // Servicio para agregar un usuario
     createUser(user: any): Observable<any> {
       return this.http.post<any>(`${this.baseUrl}/auth/add_user`, user);
     }
-
+    // Servicio para editar un usuario
     updateUser(user: any): Observable<any> {
       return this.http.post<any>(`${this.baseUrl}/auth/edit_user`, user);
     }
-
+    // Servicio para eliminar un usuario
     deleteUser(id: string): Observable<any> {
       return this.http.delete<any>(`${this.baseUrl}/auth/delete_user/${id}`);
     }
@@ -84,29 +85,31 @@ export class WebFilterService {
     }
 
 
-  // Servicio para obtener el historial
-  getHistory(month:number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/history/history/${month}`);
-  }
+    // Servicio para obtener el historial
+    getHistory(month:number): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/history/history/${month}`);
+    }
 
-  getHistoryForLast6Months(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/history/history`);
-  }
-   // Servicio de gestión de proxy
-  startProxy(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/proxy/start_proxy`);
-  }
+    getHistoryForLast6Months(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/history/history`);
+    }
 
-  // --  Detener el proxy
-  stopProxy(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/proxy/stop_proxy`);
-  }
+    // Servicio de gestión de proxy
+    startProxy(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/proxy/start_proxy`);
+    }
 
-   // -- Obtener el estado del proxy
-   getProxyStatus(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/proxy/proxy_status`);
-  }
-  reoladProxy(): Observable<any>  {
-    return this.http.get<any>(`${this.baseUrl}/proxy/reload_proxy`);
-  }
+    // --  Detener el proxy
+    stopProxy(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/proxy/stop_proxy`);
+    }
+
+    // -- Obtener el estado del proxy
+    getProxyStatus(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/proxy/proxy_status`);
+    }
+    // -- Recargar el proxy
+    reoladProxy(): Observable<any>  {
+      return this.http.get<any>(`${this.baseUrl}/proxy/reload_proxy`);
+    }
 }

@@ -19,7 +19,7 @@ export class LoginComponent {
     // Simulación de validación de credenciales
     if (this.user === 'admin' && this.password === 'admin123') {
       // Redirigir al dashboard
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard'], { queryParams: {} });
     } else {
       console.log('Credenciales inválidas');
     }

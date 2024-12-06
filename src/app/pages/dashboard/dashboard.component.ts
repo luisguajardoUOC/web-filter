@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit{
     this.monthlyData = {
       authorized: [], // Ejemplo de datos permitidos
       blocked: [],     // Ejemplo de datos bloqueados
-      labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4'] // Etiquetas de ejemplo
+      labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5'] // Etiquetas de ejemplo
     }
 
   }
