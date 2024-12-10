@@ -7,5 +7,5 @@ RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.co
 # Copia los archivos compilados de Angular al directorio de Apache
 COPY ./dist/web-filter/browser/* /usr/local/apache2/htdocs/
 
-# Expone el puerto 80 para el servidor Apache
-EXPOSE 80
+# Expone el puerto 4200 para el servidor Apache
+EXPOSE 4200

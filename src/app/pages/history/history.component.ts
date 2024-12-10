@@ -25,10 +25,8 @@ export class HistoryComponent {
   displayedColumns: string[] = [ 'url', 'action',  'userIP', 'role', 'date'];
   constructor(private webFilterService: WebFilterService) {}
   ngOnInit(): void {
-     // `getMonth()` devuelve 0 para enero, así que sumamos 1
     console.log(`Mes actual: ${this.month}`);
     this.getHisotryUsers();
-    // this.postFilteringRules(arg: any);
   }
 
   getHisotryUsers(): void {
@@ -45,18 +43,16 @@ export class HistoryComponent {
   applyFilter(event: Event, type: string) {
     //console.log("event",event);
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    //console.log("filterValue",filterValue);
+
     if (filterValue === '') {
       this.FilterhistoryData = [...this.historyData];
     } else {
-      //this.historyData = this.historyData.filter((item: any) => item.userIP.includes(filterValue));
         this.FilterhistoryData = this.historyData.filter((item: any) => {
         const a = item.userIP.includes(filterValue)
         const b = item.user_rol.includes(filterValue)
         const c = item.url.includes(filterValue)
-
         return  a || b || c
-        //item.role.inclues(filterValue)
+
       });
       console.log("this.historyData",this.FilterhistoryData);
     }
