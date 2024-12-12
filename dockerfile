@@ -8,4 +8,4 @@ RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.co
 COPY ./dist/web-filter/browser/* /usr/local/apache2/htdocs/
 
 # Expone el puerto 4200 para el servidor Apache
-EXPOSE 4200
+EXPOSE 80
