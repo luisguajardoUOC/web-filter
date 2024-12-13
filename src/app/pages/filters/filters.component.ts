@@ -292,6 +292,20 @@ export class FiltersComponent  implements OnInit {
     return roles.some(role => role.action === 'autorizar');
   }
 
-
-
+  reloadProxy()  {
+  this.webFilterService.reoladProxy().subscribe(data => {
+    console.log("data", data);
+  })
+ }
+ getProxyStatus() {
+  this.webFilterService.getProxyStatus()
+  .subscribe( {
+    next:data => {
+      this.proxyStatus = true;
+    },
+    error :(error) => {
+      this.proxyStatus = false;
+    }
+  });
 }
+ }
