@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebFilterService } from '../../services/web-filter.service';
-import { FilteringRule, Role, User } from '../../interfaces/filteringRules';
+import { FilteringRule, Role, Types, User } from '../../interfaces/filteringRules';
 
 @Component({
   selector: 'app-filters',
@@ -11,61 +11,14 @@ import { FilteringRule, Role, User } from '../../interfaces/filteringRules';
 export class FiltersComponent  implements OnInit {
 
   public filteringRules: FilteringRule[] = [];
-
-  originalFilteringRules  =  [
-    {
-      "url": "https://example.com",
-      "usuarios": [
-        {
-          "id": "2",
-          "userIP": "192.168.0.2",
-          "action": "bloquear"
-        },
-        {
-          "id": "3",
-          "userIP": "192.168.0.3",
-          "action": "bloquear"
-        }
-      ],
-      "roles": [
-        {
-          "role_id": 1,
-          "role": "publico",
-          "action": "autorizar"
-        },{
-          "role_id": 2,
-          "role": "student",
-          "action": "autorizar"
-        }
-      ]
-    },
-    {
-      "url": "https://another-site.com",
-      "usuarios": [
-        {
-          "id": "3",
-          "userIP": "192.168.0.3",
-          "action": "autorizar"
-        }
-      ],
-      "roles": [
-        {
-          "role_id": 1,
-          "role": "publico",
-          "action": "bloquear"
-        },{
-          "role_id": 2,
-          "role": "student",
-          "action": "autorizar"
-        },{
-          "role_id": 3,
-          "role": "teacher",
-          "action": "autorizar"
-        }
-      ]
-    }
-  ]
-
+  public maliciousWords: string[] = [];
+  public maliciousWordsText: string = '';
+  public newMaliciousWord: {
+    keyword: string;
+  } = {
+    keyword: ''
+  };
+  filteringRulesUnique: FilteringRule[] = [];
 
 
   userIPs: string[] = ['192.168.0.1', '192.168.0.2', '192.168.0.3'];  // Lista para almacenar las IPs únicas
@@ -73,14 +26,14 @@ export class FiltersComponent  implements OnInit {
   newRule: {
     action: string;
     url: string;
-    type: string;
+    type: Types[];
     reason?: string;
     usuarios: User[];
     roles?: Role[];
   } = {
     action: 'bloquear',  // Valor por defecto
-    url: 'any',             // Inicialmente vacío
-    type: 'no category',            // Valor por defecto
+    url: '',             // Inicialmente vacío
+    type: [],            // Valor por defecto
     reason: 'no reason',
     usuarios: [],
     roles: [] ,
@@ -89,6 +42,9 @@ export class FiltersComponent  implements OnInit {
     {action:'autorizar',  role: 'student', role_id: 1 },
     {action:'autorizar',  role: 'teacher', role_id: 2 },
     {action:'autorizar',  role: 'public', role_id: 3 }
+  ];
+  availableTypes: Types[] = [
+    {id: 1, type:'sport'}, {id:2, type:'politics'}, {id:3, type:'social'}, {id:4, type:'entertainment'}, {id:5, type:'health'}, {id:6, type:'news'}, {id:7, type:'sport'}
   ];
   isUserIPSelected: boolean = false;
   isEventSelected: boolean = false;
@@ -99,14 +55,18 @@ export class FiltersComponent  implements OnInit {
   newRoles: Role | undefined;
   public selectedRule: FilteringRule | null = null;
   spans: { [key: number]: { [key: string]: number } } = {};
-
+  proxyStatus: boolean | undefined;
   constructor(private webFilterService: WebFilterService)
   {
 
   }
   ngOnInit(): void {
     this.getFilteringRules();
+    this.getMaliciousWords();
     this.getUsers();
+    this.getProxyStatus();
+
+
     // this.postFilteringRules(arg: any);
   }
 
@@ -115,7 +75,18 @@ export class FiltersComponent  implements OnInit {
     this.webFilterService.getRules().subscribe(data => {
       console.log("data", data);
       this.filteringRules = data.rules || [];
+      console.log("this.filteringRulesUnique", this.filteringRulesUnique);
+      // Asumiendo que ya tienes filteringRules y filteringRulesUnique definidos
+      if (this.filteringRulesUnique.length > 0 && this.filteringRulesUnique[0]?.url) {
+        // Solo filtra si filteringRulesUnique tiene al menos un elemento y 'url' está definida
+        this.filteringRulesUnique = this.filteringRules.filter(rule =>
+            rule.url === this.filteringRulesUnique[0].url);
+      } /*else {
+        // Si filteringRulesUnique está vacío o sin datos válidos, asigna todas las reglas
+        this.filteringRulesUnique = [...this.filteringRules];
+      }*/
       console.log("this.filteringRules", this.filteringRules);
+      console.log("this.filteringRulesUnique", this.filteringRulesUnique);
       console.log("newRules", this.newRule);
       // Reemplazar 'null' o 'any' con 'ALL' en ip_usuario
       this.filteringRules = this.filteringRules.map((rule, index) => {
@@ -144,6 +115,14 @@ export class FiltersComponent  implements OnInit {
   addRule(): void {
     // Validar que la URL no esté vacía
     if (!this.newRule.url) {
+      alert('La URL no puede estar vacía.');
+      return;
+    }
+    // Expresión regular para validar la URL sin path
+    const urlPattern = /^(https?:\/\/)([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
+    if (!urlPattern.test(this.newRule.url)) {
+      alert('El formato de la URL no es válido o incluye un path. Introduce solo el dominio.');
       return;
     }
      // Si estamos en modo edición (la regla tiene un id), actualizamos la regla
@@ -157,6 +136,7 @@ export class FiltersComponent  implements OnInit {
           this.getFilteringRules();
           this.getUsers();
           this.clearForm();  // Limpiamos el formulario después de editar
+          this.isEditing = false;
       },
       error: error => {
         alert(error.error);      }
@@ -165,15 +145,12 @@ export class FiltersComponent  implements OnInit {
         // Modo de agregar nueva regla
       if (this.newRule.action === 'autorizar') {
         const newData = JSON.stringify(this.newRule);
-        this.webFilterService.addRule(newData).subscribe(data => {
+        this.webFilterService.addAuthorizedSite(newData).subscribe(data => {
           this.filteringRules = data;  // Actualizamos la lista de reglas
-          this.getFilteringRules();
-          this.getUsers();
           this.clearForm();  // Limpiar el formulario aquí de agregar
         });
       } else {
         const newData = JSON.stringify(this.newRule);
-        console.log("newData", newData);
 
         this.webFilterService.addRule(newData)
           .subscribe({
@@ -181,7 +158,6 @@ export class FiltersComponent  implements OnInit {
               this.filteringRules = data;  // Actualizamos la lista de reglas
               this.getFilteringRules();
               this.getUsers();
-              this.spanRow('url', (rule)=> data.url);
               this.clearForm();  // Limpiar el formulario aquí de agregar
             },
             error: error => {  // Manejar el error
@@ -210,17 +186,57 @@ export class FiltersComponent  implements OnInit {
   }
 
    // Método para editar una regla
-   editRule(rule: FilteringRule) {
+   editRule(rule: FilteringRule, action: string): void {
     console.log("edit",rule);
 
     this.newRule = {
       ...rule,
-      usuarios: rule.usuarios ? rule.usuarios.map((u: any) => u.userIP) : [],  // Mapear usuarios si los hay
-      roles: rule.roles ? rule.roles.map((r: any) => r.role) : [] // Mapear roles si los hay
+      usuarios: rule.usuarios ? rule.usuarios.filter((u: any) => u.action === action).map((u: any) => u.userIP) : [],  // Mapear usuarios si los hay
+      roles: rule.roles ? rule.roles.filter((r: any) => r.action === action).map((r: any) => r.role) : [],
+      action: action
     };
     console.log("this.newRule", this.newRule);
     this.isEditing = true; // Cambiamos a modo edición
   }
+
+  applyFilter(event:any){
+    //console.log("event",event);
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    //console.log("filterValue",filterValue);
+    if (filterValue === '') {
+      //this.filteringRulesUnique = [...this.filteringRules];
+      this.filteringRulesUnique = [];
+    } else {
+      //this.historyData = this.historyData.filter((item: any) => item.userIP.includes(filterValue));
+        this.filteringRulesUnique = this.filteringRules.filter((item: any) => {
+        const a = item.url.includes(filterValue)
+        return  a
+        //item.role.inclues(filterValue)
+      });
+      console.log("filteringRulesUnique",this.filteringRulesUnique);
+    }
+  }
+
+
+  getMaliciousWords(){
+    this.webFilterService.getKeywords().subscribe(data => {
+      console.log("MaliciousWords", data);
+      this.maliciousWords = data;
+      this.maliciousWordsText = this.maliciousWords.join('\n');
+    })
+  }
+
+  addMaliciousWord(): void {
+    const newData = JSON.stringify(this.newMaliciousWord);
+    console.log("newData", newData);
+    this.webFilterService.addKeyword(newData).subscribe(data => {
+      this.getMaliciousWords();
+      //this.newMaliciousWord = '';
+    })
+  }
+
+
+
    // Método que se ejecuta al cambiar la selección de la IP
    onUserIPSelectionChange(event: any) {
     // Si la IP seleccionada no es 'any', se deshabilita la selección de rol
@@ -238,7 +254,7 @@ export class FiltersComponent  implements OnInit {
     this.newRule = {
       action: 'bloquear',  // Valor por defecto
       url: '',             // Inicialmente vacío
-      type: 'a' ,
+      type: [],           // Inicialmente vacío] ,
       usuarios: [],
       roles: [],         // Valor por defecto
     };
@@ -248,31 +264,7 @@ export class FiltersComponent  implements OnInit {
 
 
 
-  spanRow(key: string, accessor: (rule: any) => any) {
-    this.spans = {}; // Inicializamos `spans`
 
-    for (let i = 0; i < this.filteringRules.length;) {
-      const currentValue = accessor(this.filteringRules[i]);
-      let count = 1;
-
-      // Contamos cuántas filas coinciden con el valor actual
-      for (let j = i + 1; j < this.filteringRules.length; j++) {
-        if (currentValue !== accessor(this.filteringRules[j])) {
-          break;
-        }
-        count++;
-      }
-
-      // Almacenar el `rowspan` calculado para esa fila
-      if (!this.spans[i]) {
-        this.spans[i] = {};
-      }
-
-      // Guardamos el rowspan solo para las URLs
-      this.spans[i][key] = count; // Asignamos el valor de `count`
-      i += count; // Saltamos a la siguiente fila única
-    }
-}
 
 
   // Función para determinar el rowspan dinámico
@@ -296,35 +288,10 @@ export class FiltersComponent  implements OnInit {
     return 'no autorizado';
   }
 
-  hasAuthorizedRoles(roles: any[]): boolean { 
-    if (roles.some(role => role.action === 'autorizar')){
-      return true;
-    }
-    return false;
-  }
-  
-  hasBlockedUsers(users: any[]): string {
-    if (!users.some(user => user.action === 'bloquear') &&
-          users.some(user => user.action === 'autorizar')) {
-      return "el resto bloqueado";
-    }
-    if( !users.some(user => user.action === 'autorizar') &&
-          !users.some(user => user.action === 'bloquear')) {
-      return 'Todos';
-    }
-
-    if (users.some(user => user.action === 'bloquear')) {
-      return 'bloqueado';
-    }
-    return 'no bloqueado';
+  hasAuthorizedRoles(roles: any[]): boolean {
+    return roles.some(role => role.action === 'autorizar');
   }
 
-  hasBlockedRoles(roles: any[]): boolean {
-    if (roles.some(role => role.action === 'bloquear')){
-      return true;
-    }
-    return false;
-  }
 
 
 }

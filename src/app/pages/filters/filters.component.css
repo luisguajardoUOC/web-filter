@@ -5,20 +5,41 @@
 
 .mat-form-field {
   margin-bottom: 10px;
+
 }
 
-.mat-mdc-card {
-  display: flex; /* Asegúrate de que el display sea flex */
-  flex-direction: row; /* Cambia la dirección de los elementos a filas */
-}
-
-table {
+.table {
+  border-collapse: collapse;
   width: 100%;
+  margin: 0 auto; /* Centra la tabla horizontalmente */
+    margin-top: 20px; /* Añade un margen superior */
 }
 
-th, td {
-  text-align: left;
-  padding: 8px;
+/* Aplica bordes a las celdas (tanto th como td) */
+.table th, .table td {
+  border: 1px solid black;
+  padding: 8px; /* Espacio interno de cada celda */
+  text-align: center; /* Alinear el contenido a la izquierda */
+}
+/* Agregar estilo a los botones */
+.table button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+
+}
+
+.table button:hover {
+  background-color: #0056b3;
+}
+
+table thead th {
+  border-bottom: 1px solid #ccc;
+  background-color: #6daaeb;
+  text-align: center;
 }
 
 
@@ -26,11 +47,48 @@ th, td {
   border-bottom: 1px solid #ccc; /* Añadir un borde gris debajo de cada fila */
 }
 
-.cell-divider {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px;
 }
-.cell-divider:last-child {
-  border-bottom: none;
+
+/* Añadir espacio entre header y content */
+mat-card-content {
+  padding: 20px;
+  margin-left: 50px;
+  margin-right: 50px;;
+  justify-content: center;
+}
+mat-card {
+
+  width: auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: auto; /* Ajusta este valor según el tamaño que desees */
+  text-align: center;
 }

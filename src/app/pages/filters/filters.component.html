@@ -1,138 +1,185 @@
-<mat-divider></mat-divider>
-
-<mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
-  <mat-card-header>
-    <mat-card-title>Reglas de Filtrado</mat-card-title>
-  </mat-card-header>
-
-  <mat-card-content>
-    <!-- Formulario para agregar nueva regla -->
-    <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
-      <mat-divider></mat-divider>
-      <mat-card-subtitle>Información de la Regla</mat-card-subtitle>
-      <div fxLayout="row" fxLayoutGap="20px" >
-        <mat-form-field fxFlex="45%">
-          <mat-label>URL</mat-label>
-          <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
-        </mat-form-field>
+<mat-card-content fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <mat-icon [ngStyle]="{'color': proxyStatus ? 'green' : 'red'}" >
+    fiber_manual_record
+  </mat-icon>
+  <p style="margin: 0 !important;">Status Proxy : {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+  <button mat-stroked-button (click)="reloadProxy()">
+    <mat-icon>refresh</mat-icon> Reload Proxy
+  </button>
+</mat-card-content>
 
 
-        <mat-form-field>
-          <mat-label>Acción</mat-label>
-          <mat-select [(ngModel)]="newRule.action" name="action" required>
-            <mat-option value="autorizar">Autorizar</mat-option>
-            <mat-option value="bloquear">Bloquear</mat-option>
-          </mat-select>
-        </mat-form-field>
+<div fxLayout="row" fxLayoutGap="20px" style="margin-bottom: 20px;margin-left: 50px; justify-content: space-evenly;">
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+    <mat-card-header fxLayout="row">
+      <mat-card-title>Reglas de Filtrado</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="row">
+      <!-- Formulario para agregar nueva regla -->
+      <form (ngSubmit)="addRule()" fxLayout="column" fxLayoutGap="10px">
+        <mat-divider></mat-divider>
+        <mat-card-subtitle>Información de la Regla</mat-card-subtitle>
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="45%">
+            <mat-label>URL</mat-label>
+            <input matInput placeholder="Introduce una URL" [(ngModel)]="newRule.url" name="url" required>
+          </mat-form-field>
 
 
-      </div>
+          <mat-form-field>
+            <mat-label>Acción</mat-label>
+            <mat-select [(ngModel)]="newRule.action" name="action" required>
+              <mat-option value="autorizar">Autorizar</mat-option>
+              <mat-option value="bloquear">Bloquear</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+        </div>
+        <div fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="45%">
+            <mat-label>tipo</mat-label>
+            <mat-select [(ngModel)]="newRule.type" name="type" multiple required>
+              <mat-option *ngFor="let type of availableTypes" [value]="type.type">
+                {{ type.type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <mat-divider style="margin-bottom: 20px; "></mat-divider>
         <mat-card-subtitle>Filtrado por Usuario / Rol </mat-card-subtitle>
         <!-- Tercera fila con un campo -->
-      <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="row" fxLayoutGap="20px">
 
-        <mat-form-field>
-          <mat-label>Seleccionar IP del Usuario</mat-label>
-          <mat-select [(ngModel)]="newRule.usuarios" name="userIP"
-
-            multiple required>
-            <mat-option value="any">Todos</mat-option>
-            <mat-option *ngFor="let user of users" [value]="user.ip">
-              {{ user.ip}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Seleccionar IP del Usuario</mat-label>
+            <mat-select [(ngModel)]="newRule.usuarios" name="userIP" multiple required>
+              <mat-option *ngFor="let user of users" [value]="user.ip">
+                {{ user.ip}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
 
-        <mat-form-field>
-          <mat-label>Seleccionar por Rol</mat-label>
-          <mat-select [(ngModel)]="newRule.roles" name="role"
-               multiple required>
-            <mat-option value="any">Todos</mat-option>
-            <mat-option *ngFor="let rol of availableRoles" [value]="rol.role">
-              {{ rol.role}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Seleccionar por Rol</mat-label>
+            <mat-select [(ngModel)]="newRule.roles" name="role" multiple required>
+              <mat-option *ngFor="let rol of availableRoles" [value]="rol.role">
+                {{ rol.role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      </div>
+        </div>
 
         <!-- Contenedor del botón con alineación -->
         <div fxLayout="row" fxLayoutAlign="end">
           <button mat-raised-button color="primary" type="submit">Agregar Regla</button>
         </div>
-    </form>
-  </mat-card-content>
-</mat-card>
-
-<mat-divider style="margin-bottom: 20px;"></mat-divider>
+      </form>
+    </mat-card-content>
+  </mat-card>
 
 
-<div class="container">
-  <h3>Reglas de Filtrado</h3>
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+    <mat-card-header fxLayout="row">
+      <mat-card-title>Filtrado por palabra</mat-card-title>
+    </mat-card-header>
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>URL</th>
-        <th>Acción</th>
-        <th>IP</th>
-        <th>Rol</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let rule of filteringRules">
+    <mat-card-content fxLayout="column">
+      <form (ngSubmit)="addMaliciousWord()" fxLayout="column" fxLayoutGap="10px">
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutGap="20px" style="justify-content: center;">
+          <mat-form-field>
+            <mat-label>word</mat-label>
+            <input matInput placeholder="Introduce una palabra" [(ngModel)]="newMaliciousWord.keyword"
+              name="newMaliciousWord" required>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" style="justify-content: center;">
+          <button mat-raised-button color="primary" type="submit">Agregar palabra</button>
+        </div>
+      </form>
+      <div>
+        <mat-form-field style="width: 100%; margin-top:20px">
+          <mat-label>Autosize textarea</mat-label>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5" [(ngModel)]="maliciousWords" name="maliciousWords"></textarea>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+<mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+  <mat-card-header>
+    <mat-card-title>Tabla de reglas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field  style="width: 100%;">
+      <mat-label>Filtrar URL</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Introduce la IP">
+    </mat-form-field>
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
-          <td rowspan="2">{{ rule.url }}</td>
-          <td>Bloquear</td>
-          <td>
-            <!-- Mostramos solo los usuarios que están bloqueados -->
-             <ng-container *ngIf="hasBlockedUsers(rule.usuarios)=== 'bloqueado';  else noBlockedUsers">
-            <ng-container *ngFor="let user of rule.usuarios">
-              <div *ngIf="user.action === 'bloquear'">{{ user.userIP }}</div>
-            </ng-container>
-          </ng-container>
-          <ng-template #noBlockedUsers>
-            <div>{{hasBlockedUsers(rule.usuarios)}}</div>
-          </ng-template>
-          </td>
-          <td>
-            <!-- Mostramos los roles asociados a la acción de bloquear -->
-             <ng-container *ngIf="hasBlockedRoles(rule.roles);  else noBlockedRoles">
-            <ng-container *ngFor="let role of rule.roles">
-              <div *ngIf="role.action === 'bloquear'">{{ role.role }}</div>
-            </ng-container>
-          </ng-container>
-          <ng-template #noBlockedRoles>
-            <div>{{"No Rule"}}</div>
-          </ng-template>
-          </td>
+          <th>URL</th>
+          <th>Acción</th>
+          <th>IP</th>
+          <th>Rol</th>
         </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let rule of filteringRulesUnique?.length ? filteringRulesUnique : filteringRules">
+          <tr>
+            <!-- rowspan = 2 para mostrar la URL solo una vez para ambas acciones -->
+            <td rowspan="2">{{ rule.url }}</td>
+            <td>Bloquear</td>
+            <td>
+              <!-- Mostramos solo los usuarios que están bloqueados -->
+              <ng-container *ngFor="let user of rule.usuarios">
+                <div *ngIf="user.action === 'bloquear'">{{ user.userIP }}</div>
+              </ng-container>
+            </td>
+            <td>
+              <!-- Mostramos los roles asociados a la acción de bloquear -->
+              <ng-container *ngFor="let role of rule.roles">
+                <div *ngIf="role.action === 'bloquear'">{{ role.role }}</div>
+              </ng-container>
+            </td>
+            <td colspan="3">
+              <button (click)="editRule(rule,'bloquear')">Editar</button>
+            </td>
+            <td rowspan="2">
+              <button (click)="deleteRule(rule)">Eliminar</button>
+            </td>
+          </tr>
 
         <tr>
           <td>Autorizar</td>
           <td>
             <!-- Mostramos solo los usuarios que están autorizados, o 'algo' si no hay autorizados -->
-            <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios)=== 'autorizado';  else noAuthorizedUsers">
+            <ng-container *ngIf="hasAuthorizedUsers(rule.usuarios); else noAuthorizedUsers">
               <ng-container *ngFor="let user of rule.usuarios">
                 <div *ngIf="user.action === 'autorizar'">{{ user.userIP }}</div>
               </ng-container>
             </ng-container>
             <ng-template #noAuthorizedUsers>
-              <div>{{hasAuthorizedUsers(rule.usuarios)}}</div>
+              <div>los demas usuarios</div>
             </ng-template>
           </td>
           <td>
             <!-- Mostramos los roles asociados a la acción de autorizar, o 'algo' si no hay autorizados -->
-            <ng-container *ngIf="hasAuthorizedRoles(rule.roles);  else noAuthorizedRoles">
+            <ng-container *ngIf="hasAuthorizedRoles(rule.roles); else noAuthorizedRoles">
               <ng-container *ngFor="let role of rule.roles">
                 <div *ngIf="role.action === 'autorizar'">{{ role.role }}</div>
               </ng-container>
             </ng-container>
             <ng-template #noAuthorizedRoles>
-              <div>{{"No Rule"}}</div>
+              <div>los demas roles</div>
             </ng-template>
           </td>
         </tr>

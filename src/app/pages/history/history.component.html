@@ -1,59 +1,87 @@
-<p>history works!</p>
-<mat-divider></mat-divider>
-<mat-card class="card">
-  <mat-card-header>
-    <mat-card-title>Historial de Navegación</mat-card-title>
-  </mat-card-header>
+<div class="content">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Historial de Navegación {{monthFilter ? monthFilteredData : ' - 6 meses'}} </mat-card-title>
+    </mat-card-header>
 
-  <mat-card-content>
-    <table mat-table [dataSource]="historyData" class="mat-elevation-z8" style="width: 100%;">
+    <mat-card-content>
+      <div style=" gap: 20px; margin-bottom: 20px;">
+        <mat-form-field style="width: 10%;">
+          <mat-label>All</mat-label>
+          <input matInput [(ngModel)]="monthFilter" placeholder="Introduce el mes (1-12)">
+        </mat-form-field>
 
-      <!-- Columna ID -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
+        <button mat-raised-button color="primary" (click)="applyMonthFilter()">Filtrar por Mes</button>
+      </div>
+      <!-- <mat-grid-list cols="2" gutterSize="16px" style="width: 100%;margin-bottom: 20px;">
 
-      <!-- Columna URL -->
-      <ng-container matColumnDef="url">
-        <th mat-header-cell *matHeaderCellDef> URL </th>
-        <td mat-cell *matCellDef="let element"> {{element.url}} </td>
-      </ng-container>
+          Campo de entrada para filtrar por IP del usuario -->
+      <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+        <mat-form-field  style="width: 100%;">
+          <mat-label>Filtrar por URL</mat-label>
+          <input matInput (keyup)="applyFilter($event, 'url')" placeholder="Introduce la IP">
+        </mat-form-field>
+        <mat-form-field  style="width: 100%;">
+          <mat-label>Filtrar por IP del Usuario</mat-label>
+          <input matInput (keyup)="applyFilter($event, 'userIP')" placeholder="Introduce la IP">
+        </mat-form-field>
 
-      <!-- Columna Estado de URL -->
-      <ng-container matColumnDef="stateUrl">
-        <th mat-header-cell *matHeaderCellDef> Estado URL </th>
-        <td mat-cell *matCellDef="let element"> {{element.stateUrl}} </td>
-      </ng-container>
+        <!-- Campo de entrada para filtrar por rol -->
 
-      <!-- Columna Tipo -->
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Tipo </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-      </ng-container>
+        <mat-form-field  style="width: 100%;">
+          <mat-label>Filtrar por Rol</mat-label>
+          <input matInput (keyup)="applyFilter($event,'user_rol')" placeholder="Introduce el rol">
+        </mat-form-field>
 
-      <!-- Columna IP del Usuario -->
-      <ng-container matColumnDef="userIP">
-        <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
-        <td mat-cell *matCellDef="let element"> {{element.userIP}} </td>
-      </ng-container>
+        <!-- Campo de filtrado por fecha -->
 
-      <!-- Columna Rol -->
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef> Rol </th>
-        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
-      </ng-container>
 
-      <!-- Columna Fecha -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Fecha acceso </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-      </ng-container>
 
-      <!-- Encabezado de la tabla -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <!-- Filas de la tabla -->
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
+      </div>
+
+      <table mat-table [dataSource]="FilterhistoryData" class="mat-elevation-z8" style="width: 100%;">
+
+        <!-- Columna ID
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>-->
+
+        <!-- Columna URL -->
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef> URL </th>
+          <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+        </ng-container>
+
+        <!-- Columna Estado de URL -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Estado URL </th>
+          <td mat-cell *matCellDef="let element"> {{element.action}} </td>
+        </ng-container>
+
+        <!-- Columna IP del Usuario -->
+        <ng-container matColumnDef="userIP">
+          <th mat-header-cell *matHeaderCellDef> IP del Usuario </th>
+          <td mat-cell *matCellDef="let element"> {{element.userIP}} </td>
+        </ng-container>
+
+        <!-- Columna Rol -->
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef> Rol </th>
+          <td mat-cell *matCellDef="let element"> {{element.user_rol}} </td>
+        </ng-container>
+
+        <!-- Columna Fecha -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha acceso </th>
+          <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
+        </ng-container>
+
+        <!-- Encabezado de la tabla -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Filas de la tabla -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

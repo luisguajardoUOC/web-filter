@@ -15,7 +15,7 @@ export class UsersComponent  implements OnInit  {
     username: '',
     userIP: '',
     email: '',
-    role: 'public',    
+    role: 'public',
     action: 'autorizar',
   };
   displayedColumns: string[] = ['username', 'userIP', 'role', 'timeStamp', 'actions'];
@@ -47,13 +47,16 @@ export class UsersComponent  implements OnInit  {
   }
   // Eliminar usuario
   onDelete(id: string): void {
+    console.log("id",id);
     this.webFilterService.deleteUser(id).subscribe(() => {
       this.getUsers();
     });
   }
   // Cargar usuario en el formulario para editar
   onEdit(user: User): void {
+    console.log("user", user);
     this.user = { ...user };
+    console.log("user", this.user);
   }
 
 // Limpiar el formulario
@@ -63,7 +66,7 @@ resetForm(): void {
     username: '',
     userIP: '',
     email: '',
-    role: 'public',    
+    role: 'public',
     action:'bloquear',
   };
 }

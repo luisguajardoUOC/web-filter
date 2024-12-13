@@ -1,0 +1,47 @@
+.full-width-field {
+  width: 100%;
+}
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+/* Añadir espacio entre header y content */
+mat-card-content {
+  padding: 20px;
+  margin-left: 50px;
+  margin-right: 50px;;
+  justify-content: center;
+}
+mat-card {
+
+  width: auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 80%; /* Ajusta este valor según el tamaño que desees */
+  text-align: center;
+}

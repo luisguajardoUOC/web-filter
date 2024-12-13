@@ -1,37 +1,54 @@
 <div class="dashboard">
+  <div class="card-row">
+    <!-- Estado del Proxy -->
+    <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+      <mat-card-header>
+        <mat-card-title>Estado del Proxy</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Status: {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
+      </mat-card-content>
+    </mat-card>
 
-  <!-- Estado del Proxy -->
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-card-title>Estado del Proxy</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Status: {{ proxyStatus ? 'Activo' : 'Inactivo' }}</p>
-    </mat-card-content>
-  </mat-card>
-
-  <!-- Total de Páginas Bloqueadas -->
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-card-title>Total de Páginas Bloqueadas</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ totalBlockedPages }}</p>
-    </mat-card-content>
-  </mat-card>
+    <!-- Total de Páginas Bloqueadas -->
+    <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
+      <mat-card-header>
+        <mat-card-title>Total de Páginas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="totals-container">
+          <div class="total-item">
+            <p class="small-title">Autorizadas</p>
+            <p class="small-text">{{ urlHistoryAuthorized }}</p>
+          </div>
+          <div class="total-item">
+            <p class="small-title">Bloqueadas</p>
+            <p class="small-text">{{ urlHistoryBlocked }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
   <!-- Gráfico de Tráfico Bloqueado vs Permitido -->
-  <mat-card class="card">
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
     <mat-card-header>
       <mat-card-title>Tráfico Bloqueado vs Permitido</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <canvas id="trafficChart"></canvas>
+      <div class="charts-container">
+      <app-traffic-chart [chartTitle]="'Tráfico Bloqueado vs Permitido (Diario)'"
+        [trafficData]="dailyTrafficData"></app-traffic-chart>
+      <app-traffic-chart [chartTitle]="'Tráfico Bloqueado vs Permitido (Mensual)'"
+        [trafficData]="monthlyTrafficData"></app-traffic-chart>
+      <!--  <app-traffic-chart [chartTitle]="'Tráfico Bloqueado vs Permitido (Horario)'"
+        [trafficData]="hourlyTrafficData"></app-traffic-chart> -->
+        </div>
     </mat-card-content>
   </mat-card>
 
   <!-- Últimas URLs Accedidas -->
-  <mat-card class="card">
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
     <mat-card-header>
       <mat-card-title>Últimas URLs Accedidas</mat-card-title>
     </mat-card-header>
@@ -44,7 +61,7 @@
 
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Status </th>
-          <td mat-cell *matCellDef="let url"> {{url.blocked ? 'Bloqueado' : 'Permitido'}} </td>
+          <td mat-cell *matCellDef="let url"> {{url.action}} </td>
         </ng-container>
 
         <ng-container matColumnDef="timestamp">
@@ -58,23 +75,8 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Reglas de Filtrado Actuales -->
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-card-title>Reglas Actuales de Filtrado</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let rule of filteringRules">
-          <mat-icon mat-list-icon>filter_list</mat-icon>
-          <h4 mat-line>{{ rule }}</h4>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
-
   <!-- Logs de Actividad -->
-  <mat-card class="card">
+  <mat-card class="card" style="margin-bottom: 20px; margin-left: 50px;">
     <mat-card-header>
       <mat-card-title>Registro de Actividades</mat-card-title>
     </mat-card-header>
