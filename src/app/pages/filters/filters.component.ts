@@ -293,7 +293,6 @@ export class FiltersComponent  implements OnInit {
     error :(error) => {
       this.proxyStatus = false;
     }
-
   });
 }
  }
