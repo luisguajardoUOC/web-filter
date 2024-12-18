@@ -10,7 +10,7 @@ import ApexCharts from 'apexcharts'
 })
 export class DashboardComponent implements OnInit{
    // Variables para almacenar datos del backend
-   proxyStatus: boolean = false;
+   proxyStatus: boolean  | undefined;
    totalBlockedPages: number[] = [];
    totalAutorizedPages: number[] = [];
    urlHistory: any[] = [];
@@ -91,20 +91,22 @@ export class DashboardComponent implements OnInit{
     } else {
       this.activityLogs = [];
     }
-
     // Datos para el gráfico de tráfico bloqueado vs permitido
-
-
-
-
   }
-
-
 
   // Métodos para iniciar/detener el proxy (puedes simular o implementar en backend)// Obtener el estado del proxy desde el backend
   getProxyStatus() {
-    this.webFilterService.getProxyStatus().subscribe((data: any) => {
-      this.proxyStatus = data.status === 'running';
+    console.log("proxyStatus",this.proxyStatus);
+    this.webFilterService.getProxyStatus()
+    .subscribe( {
+      next:data => {
+        this.proxyStatus = true;
+        console.log("proxyStatus", this.proxyStatus); 
+      },
+      error :(error) => {
+        this.proxyStatus = false;
+        console.log("proxyStatus", this.proxyStatus);
+      }
     });
   }
 
