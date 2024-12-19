@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class WebFilterService {
-  private baseUrl = 'http://127.0.0.1:5000/api';  // URL del backend en Flask
+  private baseUrl = 'https://23.251.133.137:5000/api';  // URL del backend en Flask
 
   constructor(private http: HttpClient) {}
 
