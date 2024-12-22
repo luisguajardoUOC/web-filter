@@ -11,15 +11,15 @@
 .table {
   border-collapse: collapse;
   width: 100%;
-  margin: 0 auto; /* Centra la tabla horizontalmente */
-    margin-top: 20px; /* Añade un margen superior */
+  margin: 0 auto; 
+    margin-top: 20px; 
 }
 
 /* Aplica bordes a las celdas (tanto th como td) */
 .table th, .table td {
   border: 1px solid black;
-  padding: 8px; /* Espacio interno de cada celda */
-  text-align: center; /* Alinear el contenido a la izquierda */
+  padding: 8px; 
+  text-align: center; 
 }
 /* Agregar estilo a los botones */
 .table button {
@@ -44,7 +44,7 @@ table thead th {
 
 
 .table-bordered tbody tr {
-  border-bottom: 1px solid #ccc; /* Añadir un borde gris debajo de cada fila */
+  border-bottom: 1px solid #ccc; 
 }
 
 
@@ -89,6 +89,6 @@ body, html {
 }
 
 .card {
-  width: auto; /* Ajusta este valor según el tamaño que desees */
+  width: auto; 
   text-align: center;
 }

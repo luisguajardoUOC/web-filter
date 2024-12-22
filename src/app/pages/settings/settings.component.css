@@ -42,6 +42,6 @@ body, html {
 }
 
 .card {
-  width: 80%; /* Ajusta este valor según el tamaño que desees */
+  width: 80%; 
   text-align: center;
 }
