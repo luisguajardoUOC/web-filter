@@ -141,7 +141,7 @@ export class FiltersComponent  implements OnInit {
       error: error => {
         alert(error.error);      }
     });
-    } else {
+    }  else { /*
         // Modo de agregar nueva regla
       if (this.newRule.action === 'autorizar') {
         const newData = JSON.stringify(this.newRule);
@@ -149,7 +149,7 @@ export class FiltersComponent  implements OnInit {
           this.filteringRules = data;  // Actualizamos la lista de reglas
           this.clearForm();  // Limpiar el formulario aquí de agregar
         });
-      } else {
+      } else { */
         const newData = JSON.stringify(this.newRule);
 
         this.webFilterService.addRule(newData)
@@ -170,7 +170,7 @@ export class FiltersComponent  implements OnInit {
               }
             }
           });
-      }
+      // }
     }
 
   }
