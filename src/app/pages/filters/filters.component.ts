@@ -141,17 +141,9 @@ export class FiltersComponent  implements OnInit {
       error: error => {
         alert(error.error);      }
     });
-    }  else { /*
-        // Modo de agregar nueva regla
-      if (this.newRule.action === 'autorizar') {
+    }  else { 
+        // Modo de agregar nueva regla      
         const newData = JSON.stringify(this.newRule);
-        this.webFilterService.addAuthorizedSite(newData).subscribe(data => {
-          this.filteringRules = data;  // Actualizamos la lista de reglas
-          this.clearForm();  // Limpiar el formulario aquí de agregar
-        });
-      } else { */
-        const newData = JSON.stringify(this.newRule);
-
         this.webFilterService.addRule(newData)
           .subscribe({
             next: data => {  // Manejar la respuesta exitosa
@@ -169,8 +161,7 @@ export class FiltersComponent  implements OnInit {
                 alert("Ocurrió un error al agregar la regla. Intenta nuevamente.");  // Mostrar alerta genérica
               }
             }
-          });
-      // }
+          });      
     }
 
   }
