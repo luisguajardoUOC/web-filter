@@ -36,14 +36,14 @@ export class DashboardComponent implements OnInit{
      this.getProxyStatus();
      this.initializeDashboardData();
      this.dailyData = {
-      authorized: [], // Ejemplo de datos permitidos
-      blocked: [],     // Ejemplo de datos bloqueados
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'] // Etiquetas de ejemplo
+      authorized: [], // datos permitidos
+      blocked: [],     // datos bloqueados
+      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4','Day 5','Day 6'] //
     };
     this.monthlyData = {
-      authorized: [], // Ejemplo de datos permitidos
-      blocked: [],     // Ejemplo de datos bloqueados
-      labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5'] // Etiquetas de ejemplo
+      authorized: [], // datos permitidos
+      blocked: [],     // datos bloqueados
+      labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5'] // 
     }
 
   }
@@ -69,7 +69,6 @@ export class DashboardComponent implements OnInit{
       };
     } else if (period === 'monthly') {
       this.processDashboardDataByMonths(data);
-
       this.monthlyTrafficData = {
         series: [
           { name: 'Permitido', data: this.totalAutorizedPages },
@@ -130,26 +129,32 @@ export class DashboardComponent implements OnInit{
     // Inicializamos los arrays para almacenar el total de páginas bloqueadas y autorizadas por día (últimos 7 días)
     this.totalBlockedPages = Array(7).fill(0);
     this.totalAutorizedPages = Array(7).fill(0);
+    const labels: string[] = [];
 
     Array.from({ length: 7 }).forEach((_, index) => {
       // Creamos una nueva fecha en UTC para cada uno de los últimos 7 días
       const date = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - index));
       const dateString = date.toISOString().split('T')[0];
+      console.log("date",date);
+      // Agregamos la etiqueta del día con el nombre del día de la semana (e.g., "Lunes", "Martes")
+      labels.push(date.toLocaleDateString('es-ES', { weekday: 'long' }));
 
       // Filtramos y contamos las páginas bloqueadas para el día correspondiente
       this.totalBlockedPages[index] = data.filter((entry: any) => {
         const entryDate = new Date(entry.timestamp).toISOString().split('T')[0];
         return entry.action === 'bloquear' && entryDate === dateString;
-      }).length;
+      }).length;      
 
       // Filtramos y contamos las páginas autorizadas para el día correspondiente
       this.totalAutorizedPages[index] = data.filter((entry: any) => {
         const entryDate = new Date(entry.timestamp).toISOString().split('T')[0];
         return entry.action === 'autorizar' && entryDate === dateString;
       }).length;
-
-
     });
+    // Invertir el orden de etiquetas y datos
+    this.dailyData.labels = labels.reverse();
+    this.totalBlockedPages.reverse();
+    this.totalAutorizedPages.reverse();   
   }
 
   processDashboardDataByMonths(data: any): void {
@@ -158,13 +163,16 @@ export class DashboardComponent implements OnInit{
     // Inicializamos los arrays para almacenar el total de páginas bloqueadas y autorizadas por mes (últimos 6 meses)
     this.totalBlockedPages = Array(6).fill(0);
     this.totalAutorizedPages = Array(6).fill(0);
+    const labels: string[] = [];
 
     Array.from({ length: 6 }).forEach((_, index) => {
       // Creamos una nueva fecha en UTC para cada uno de los últimos 6 meses
       const date = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - index, 1));
-
       const month = date.getUTCMonth();
       const year = date.getUTCFullYear();
+
+      // Agregar etiqueta con el nombre del mes y año (e.g., "Enero 2024")
+      labels.push(date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }));
 
       // Filtramos y contamos las páginas bloqueadas para el mes correspondiente
       this.totalBlockedPages[index] = data.filter((entry: any) => {
@@ -186,7 +194,9 @@ export class DashboardComponent implements OnInit{
         );
       }).length;
     });
+    // Invertir el orden de etiquetas y datos
+    this.monthlyData.labels = labels.reverse();
+    this.totalBlockedPages.reverse();
+    this.totalAutorizedPages.reverse();
   }
-
-
 }
