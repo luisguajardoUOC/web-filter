@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UrlCheckerComponent } from './components/url-checker/url-checker.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { MaterialModule } from './material/material.modules';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -26,8 +25,7 @@ import { LoginComponent} from './pages/login/login.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    UrlCheckerComponent,
+    AppComponent,    
     LayoutComponent,
     DashboardComponent,
     FiltersComponent,
